@@ -1,9 +1,8 @@
 from typing import List, Any
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 
-
+#dropdown error
 class ElementsUtil:
     element_array: list[Any]
 
