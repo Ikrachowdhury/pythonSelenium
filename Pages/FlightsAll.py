@@ -1,4 +1,4 @@
-from seleniumpagefactory.Pagefactory import PageFactory
+
 from Base import Util
 
 
@@ -29,11 +29,6 @@ class FlightView:
         self.NumberDropbox = None
         self.SearchInputBox = None
 
-    # locators = {
-    #     'AddButton': ('XPATH', "html/body/main/section/div[2]/div/div/div[1]/div[1]"),
-    #     'password': ('CSS', '#password input'),
-    #     'login_btn': ('ID', 'login-btn')
-    # }
     def click_add_button(self):
         self.AddButton = self.find.element_by_xpath("html/body/main/section/div[2]/div/div/div[1]/div[1]")
         self.AddButton.click()
