@@ -1,8 +1,10 @@
+import time
 from typing import List, Any
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
-#dropdown error
+
+# dropdown error
 class ElementsUtil:
     element_array: list[Any]
 
@@ -64,3 +66,5 @@ class ElementsUtil:
         drop_down_element.select_by_visible_text(option)
         selected_elements = drop_down_element.all_selected_options
         return [element.text for element in selected_elements]
+
+

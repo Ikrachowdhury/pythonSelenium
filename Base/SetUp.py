@@ -22,6 +22,11 @@ class MyTestCase(unittest.TestCase):
         log.click_submit_button()
         time.sleep(10)
 
+    def check_result_string(self, actual_result, expected):
+        # print(actual_result)
+        # print(expected)
+        assert actual_result == expected
+
 
 if __name__ == '__main__':
     unittest.main()
