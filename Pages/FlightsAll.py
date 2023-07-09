@@ -80,7 +80,6 @@ class FlightView:
     def click_delete_all(self):
         self.deleteAllBox.click()
 
-
     def click_search_button(self):
         self.SearchButton = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/a")
         self.SearchButton.click()
@@ -137,10 +136,130 @@ class FlightView:
         return self.find.driver.tittle
 
 
-
 class FlightAdd:
-    pass
+    def __init__(self, driver):
+        self.find = Util.ElementsUtil(driver)
+        self.Status = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/span/span[1]/span")
+        self.User_id = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[2]/td[2]/span/span[1]/span")
+        self.Airline = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[3]/td[2]/span/span[1]/span")
+        self.AirportTo = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[5]/td[2]/span/span[1]/span")
+        self.AirportFrom = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[4]/td[2]/span/span[1]/span")
+        self.AdultPrice = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[6]/td[2]/input")
+        self.ChildPrice = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[7]/td[2]/input")
+        self.InfintPrice = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[8]/td[2]/input")
+        self.Duration = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[9]/td[2]/input")
+        self.DepartureiIme = self.find.element_by_xpath('//*[@id="dp1688894630360"]')
+        self.ArraivalTime = self.find.element_by_xpath('//*[@id="dp1688894630361"]')
+        self.Baggage = self.find.element_by_xpath(
+            '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[12]/td[2]/input')
+        self.CabinBagage = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[13]/td[2]/input")
+        self.Type = self.find.element_by_xpath(
+            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[14]/td[2]/span/span[1]/span")
+        self.Refundable = self.find.element_by_xpath('//*[@id="select2-ZmxpZ2h0cy5yZWZ1bmRhYmxl-3t-container"]')
+        self.Save = self.find.element_by_xpath('/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[1]')
+        self.Return = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[2]")
+
+    def select_option(self, value, selector):
+        Options = self.find.element_by_xpath(selector)
+        Options.send_keys(value)
+        Options.send_keys(Keys.ENTER)
+
+    def set_status(self, value):
+        self.Status.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
+
+    def set_id(self, value):
+        self.User_id.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
+
+    def set_airline(self, value):
+        self.Airline.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
+
+    def set_airport_from(self, value):
+        self.AirportFrom.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
+
+    def set_airport_to(self, value):
+        self.AirportTo.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
+
+    def set_adult_price(self, value):
+        self.AdultPrice.click()
+        self.AdultPrice.send_keys(value)
+
+    def set_child_price(self, value):
+        self.ChildPrice.click()
+        self.ChildPrice.send_keys(value)
+
+    def set_infant_price(self, value):
+        self.InfintPrice.click()
+        self.InfintPrice.send_keys(value)
+
+    def set_duration(self, value):
+        self.Duration.click()
+        self.Duration.send_keys(value)
+
+    def set_departure_time(self, value):
+        self.Status.click()
+
+    def set_arrival_time(self, value):
+        self.Status.click()
+
+    def set_baggage(self, value):
+        self.Baggage.click()
+        self.Baggage.send_keys(value)
 
 
-class FlightEdit:
-    pass
+    def set_cabin_baggage(self, value):
+        self.CabinBagage.click()
+        self.CabinBagage.send_keys(value)
+
+    def set_type(self, value):
+        self.Type.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
+
+    def set_refundable(self, value):
+        self.Refundable.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
+
+    def click_on_save(self):
+        self.Save.click()
+
+    def click_on_return(self):
+        self.Return.click()
+
+
+
+class FlightEdit(FlightAdd):
+
+    def click_add_route(self):
+        pass
+
+    def set_airport_route(self, value):
+        pass
+
+    def set_arraival_time_route(self, value):
+        pass
+
+    def set_departure_time_route(self, value):
+        pass
+
+    def duration_rooute(self, value):
+        pass
+
+    def click_on_save(self):
+        pass
+
+    def click_on_return(self):
+        pass
