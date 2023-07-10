@@ -1,14 +1,24 @@
 import time
+from telnetlib import EC
 from typing import List, Any
+
+from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
+from Base import WindowManager
 
 
 # dropdown error
-class ElementsUtil:
+class ElementsUtil(WindowManager.WindowManager):
     element_array: list[Any]
 
     def __init__(self, driver):
+        super().__init__(driver)
         self.driver = driver
         self.el = None
         self.length = None
@@ -47,6 +57,13 @@ class ElementsUtil:
                 self.element_array.append(element)
         return self.element_array
 
+    def execute_script(self,element):
+         self.driver.execute_script("arguments[0].style = 'left: 22.0339%;';", element)
+
+    def element_action(self, element):
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).send_keys(Keys.ARROW_RIGHT).perform()
+
     def get_table_element(self, table, number, child_element):
         try:
             self.length = len(table)
@@ -66,5 +83,3 @@ class ElementsUtil:
         drop_down_element.select_by_visible_text(option)
         selected_elements = drop_down_element.all_selected_options
         return [element.text for element in selected_elements]
-
-

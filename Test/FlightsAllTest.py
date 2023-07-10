@@ -18,12 +18,6 @@ class FlightsAllTesCases(unittest.TestCase):
         self.flight = FlightsAll.FlightView(SetUp.driver)
         self.flightAdd = None
 
-
-
-
-
-
-
     # *************************************View Section test Cases***********************************************************************************
     def test_flightPageAppear_TC1(self):
         self.dashboard.goto_all_flights()
@@ -72,7 +66,7 @@ class FlightsAllTesCases(unittest.TestCase):
         self.test_ClickCheckbox_TC9()
         self.flight.click_delete_all()
 
-    #**************************************************Flight search section Test Cases*************************
+    # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchFlightBoxAppear_TC16n17(self):
         self.test_flightPageAppear_TC1()
         actualResult = self.flight.click_search_button()
@@ -106,38 +100,45 @@ class FlightsAllTesCases(unittest.TestCase):
         actualResult = self.flight.get_text_popup()
         baseSetUp.check_result_string(actualResult, "Invalid input")
         time.sleep(6)
-     #************************************************************ search end****************************************
+
+    # ************************************************************ search end****************************************
     def test_Back_button(self):
         self.test_flightPageAppear_TC1()
         actualResult = self.flight.click_back_button()
         baseSetUp.check_result_string(actualResult, "Dashboard")
         time.sleep(3)
-    #*******************************************************************************************************************************************************
 
+    # *******************************************************************************************************************************************************
 
-
-
-
-
-    #*********************************************************** Add Flights Test Cases *******************************************************************
-    def test_AddANewFlightValid_TC2(self):
+    # *********************************************************** Add Flights Test Cases ***************************
+    def FlightValues(self):
         self.test_AddNewFlightOptionAppear_TC2()
         self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
-        self.flightAdd.set_id("")
-        self.flightAdd.select_option("")
-        self.flightAdd.set_type("")
-        self.flightAdd.set_airline("")
-        self.flightAdd.set_baggage("")
-        self.flightAdd.set_duration("")
-        self.flightAdd.set_airport_from("")
-        self.flightAdd.set_airport_to("")
-        self.flightAdd.set_departure_time("")
-        self.flightAdd.set_refundable("")
-        self.flightAdd.set_adult_price("")
-        self.flightAdd.set_infant_price("")
-        self.flightAdd.set_child_price("")
-        self.flightAdd.set_status("")
-        self.flightAdd.set_arrival_time("")
+        self.flightAdd.set_status("Enabled")
+        self.flightAdd.set_airline("12 North")
+        self.flightAdd.set_id("supplier@phptravels.com")
+        self.flightAdd.set_airport_from("06C")
+        self.flightAdd.set_airport_to("04G")
+        self.flightAdd.set_duration("45")
+        self.flightAdd.set_type("Economy")
+        self.flightAdd.set_refundable("Disable")
+        self.flightAdd.set_departure_time()
+        self.flightAdd.set_arrival_time()
+        self.flightAdd.set_baggage("3")
+        self.flightAdd.set_cabin_baggage("5")
+
+        self.flightAdd.set_adult_price("1000")
+        self.flightAdd.set_child_price("500")
+        self.flightAdd.set_infant_price("90")
+
+    def test_AddANewFlightValid_TC2(self):
+        self.FlightValues()
+        self.flightAdd.click_on_save()
+
+        firstFlight = self.flight.get_first_flight_from_table()
+        print(firstFlight)
+        baseSetUp.check_result_string(firstFlight, "supplier@phptravels.com")
+        time.sleep(2)
 
     def test_AddWithoutValue_TC2(self):
         self.test_AddNewFlightOptionAppear_TC2()
@@ -158,85 +159,47 @@ class FlightsAllTesCases(unittest.TestCase):
         self.flightAdd.set_status("")
         self.flightAdd.set_arrival_time("")
         self.flightAdd.Save()
+        actualResult = self.flight.get_text_popup()
+        baseSetUp.check_result_string(actualResult, "Invalid input")
+        time.sleep(6)
 
     def test_AddSameFlightTwice_TC4(self):
-        self.test_AddNewFlightOptionAppear_TC2()
-        self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
-        self.flightAdd.set_id("")
-        self.flightAdd.select_option("")
-        self.flightAdd.set_type("")
-        self.flightAdd.set_airline("")
-        self.flightAdd.set_baggage("")
-        self.flightAdd.set_duration("")
-        self.flightAdd.set_airport_from("")
-        self.flightAdd.set_airport_to("")
-        self.flightAdd.set_departure_time("")
-        self.flightAdd.set_refundable("")
-        self.flightAdd.set_adult_price("")
-        self.flightAdd.set_infant_price("")
-        self.flightAdd.set_child_price("")
-        self.flightAdd.set_status("")
-        self.flightAdd.set_arrival_time("")
-        self.flightAdd.Save()
+        self.FlightValues()
+        self.flightAdd.click_on_save()
 
-    def test_AddFlightWrongInfo_TC5(self):
-        self.test_AddNewFlightOptionAppear_TC2()
-        self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
-        self.flightAdd.set_id("")
-        self.flightAdd.select_option("")
-        self.flightAdd.set_type("")
-        self.flightAdd.set_airline("")
-        self.flightAdd.set_baggage("")
-        self.flightAdd.set_duration("")
-        self.flightAdd.set_airport_from("")
-        self.flightAdd.set_airport_to("")
-        self.flightAdd.set_departure_time("")
-        self.flightAdd.set_refundable("")
-        self.flightAdd.set_adult_price("")
-        self.flightAdd.set_infant_price("")
-        self.flightAdd.set_child_price("")
-        self.flightAdd.set_status("")
-        self.flightAdd.set_arrival_time("")
-        self.flightAdd.Save()
+        actualResult = self.flight.get_text_popup()
+        baseSetUp.check_result_string(actualResult, "Flight Already exits")
+        time.sleep(6)
 
-    def test_AddSameFlight_PriceInput_TC6(self):
-        self.test_AddNewFlightOptionAppear_TC2()
-        self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
-        self.flightAdd.set_id("")
-        self.flightAdd.select_option("")
-        self.flightAdd.set_type("")
-        self.flightAdd.set_airline("")
-        self.flightAdd.set_baggage("")
-        self.flightAdd.set_duration("")
-        self.flightAdd.set_airport_from("")
-        self.flightAdd.set_airport_to("")
-        self.flightAdd.set_departure_time("")
-        self.flightAdd.set_refundable("")
-        self.flightAdd.set_adult_price("")
-        self.flightAdd.set_infant_price("")
-        self.flightAdd.set_child_price("")
-        self.flightAdd.set_status("")
-        self.flightAdd.set_arrival_time("")
-        self.flightAdd.Save()
-    def test_AddSameFlight_TimeInput_TC7(self):
-        self.test_AddNewFlightOptionAppear_TC2()
-        self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
-        self.flightAdd.set_id("")
-        self.flightAdd.select_option("")
-        self.flightAdd.set_type("")
-        self.flightAdd.set_airline("")
-        self.flightAdd.set_baggage("")
-        self.flightAdd.set_duration("")
-        self.flightAdd.set_airport_from("")
-        self.flightAdd.set_airport_to("")
-        self.flightAdd.set_departure_time("")
-        self.flightAdd.set_refundable("")
-        self.flightAdd.set_adult_price("")
-        self.flightAdd.set_infant_price("")
-        self.flightAdd.set_child_price("")
-        self.flightAdd.set_status("")
-        self.flightAdd.set_arrival_time("")
-        self.flightAdd.Save()
+    def test_AddFlightInvalid_TC5(self):
+        self.FlightValues()
+        self.flightAdd.set_airport_from("04C")
+        self.flightAdd.set_airport_to("04G")
+        self.flightAdd.click_on_save()
+
+        actualResult = self.flight.get_text_popup()
+        baseSetUp.check_result_string(actualResult, "Invalid input")
+        time.sleep(6)
+
+    def test_AddFlight_PriceInput_TC6(self):
+        self.FlightValues()
+        self.flightAdd.set_adult_price("107bdshfg")
+        self.flightAdd.set_child_price("788dfjasg")
+        self.flightAdd.set_infant_price("9dsfjdshfkj")
+        self.flightAdd.click_on_save()
+
+        actualResult = self.flight.get_text_popup()
+        baseSetUp.check_result_string(actualResult, "Invalid input")
+        time.sleep(6)
+
+    def test_AddFlight_TimeInput_TC7(self):
+        self.FlightValues()
+        self.flightAdd.click_on_save()
+
+        firstFlight = self.flight.get_first_flight_from_table()
+        print(firstFlight)
+        baseSetUp.check_result_string(firstFlight, "supplier@phptravels.com")
+        time.sleep(2)
 
     @classmethod
     def tearDownClass(cls):

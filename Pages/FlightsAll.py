@@ -135,6 +135,11 @@ class FlightView:
         time.sleep(5)
         return self.find.driver.tittle
 
+    def get_first_flight_from_table(self):
+        self.get_table()
+        username = self.find.get_table_element(self.TableArray, 0, 'fw-light')
+        return username.text
+
 
 class FlightAdd:
     def __init__(self, driver):
@@ -157,15 +162,16 @@ class FlightAdd:
             "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[8]/td[2]/input")
         self.Duration = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[9]/td[2]/input")
-        self.DepartureiIme = self.find.element_by_xpath('//*[@id="dp1688894630360"]')
-        self.ArraivalTime = self.find.element_by_xpath('//*[@id="dp1688894630361"]')
+        self.DepartureTime = self.find.element_by_name("ZmxpZ2h0cy5kZXBhcnR1cmVfdGltZQ--")
+        self.ArrivalTime = self.find.element_by_name("ZmxpZ2h0cy5hcnJpdmFsX3RpbWU-")
         self.Baggage = self.find.element_by_xpath(
             '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[12]/td[2]/input')
         self.CabinBagage = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[13]/td[2]/input")
         self.Type = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[14]/td[2]/span/span[1]/span")
-        self.Refundable = self.find.element_by_xpath('//*[@id="select2-ZmxpZ2h0cy5yZWZ1bmRhYmxl-3t-container"]')
+        self.Refundable = self.find.element_by_xpath(
+            '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[15]/td[2]/div/span/span[1]/span')
         self.Save = self.find.element_by_xpath('/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[1]')
         self.Return = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[2]")
 
@@ -195,31 +201,45 @@ class FlightAdd:
         self.select_option(value, "/html/body/span/span/span[1]/input")
 
     def set_adult_price(self, value):
-        self.AdultPrice.click()
         self.AdultPrice.send_keys(value)
 
     def set_child_price(self, value):
-        self.ChildPrice.click()
         self.ChildPrice.send_keys(value)
 
     def set_infant_price(self, value):
-        self.InfintPrice.click()
         self.InfintPrice.send_keys(value)
 
     def set_duration(self, value):
         self.Duration.click()
         self.Duration.send_keys(value)
 
-    def set_departure_time(self, value):
-        self.Status.click()
+    def set_departure_time(self):
+        self.DepartureTime.click()
+        hour = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[2]/div/a')
+        hour.click()
+        self.find.element_action(hour)
+        min = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[3]/div/a')
+        min.click()
+        self.find.element_action(min)
+        sec = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[4]/div/a')
+        sec.click()
+        self.find.element_action(sec)
 
-    def set_arrival_time(self, value):
-        self.Status.click()
+    def set_arrival_time(self):
+        self.ArrivalTime.click()
+        hour = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[2]/div/a')
+        hour.click()
+        self.find.element_action(hour)
+        min = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[3]/div/a')
+        min.click()
+        self.find.element_action(min)
+        sec = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[4]/div/a')
+        sec.click()
+        self.find.element_action(sec)
 
     def set_baggage(self, value):
         self.Baggage.click()
         self.Baggage.send_keys(value)
-
 
     def set_cabin_baggage(self, value):
         self.CabinBagage.click()
@@ -234,11 +254,12 @@ class FlightAdd:
         self.select_option(value, "/html/body/span/span/span[1]/input")
 
     def click_on_save(self):
+        self.find.scroll_to(self.Status)
+        time.sleep(5)
         self.Save.click()
 
     def click_on_return(self):
         self.Return.click()
-
 
 
 class FlightEdit(FlightAdd):
