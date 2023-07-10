@@ -17,6 +17,7 @@ class FlightsAllTesCases(unittest.TestCase):
         self.dashboard = DashBoard.DashBoard(SetUp.driver)
         self.flight = FlightsAll.FlightView(SetUp.driver)
         self.flightAdd = None
+        self.flightEdit = None
 
     # *************************************View Section test Cases***********************************************************************************
     def test_flightPageAppear_TC1(self):
@@ -200,6 +201,23 @@ class FlightsAllTesCases(unittest.TestCase):
         print(firstFlight)
         baseSetUp.check_result_string(firstFlight, "supplier@phptravels.com")
         time.sleep(2)
+        # ************************************************end of Add Flight Test Cases ***************************************
+
+        # **************************************************Edit Flight Test Cases *********************************************
+
+    def test_EditFlightValid_TC10(self):
+        self.test_EditButton_TC14()
+        self.flightEdit = FlightsAll.FlightEdit(SetUp.driver)
+        pass
+
+    def test_EditFlightValid_TC12(self):
+        pass
+
+    def test_SaveWithOutChange_TC11(self):
+        pass
+
+    def test_Return_Button(self):
+        pass
 
     @classmethod
     def tearDownClass(cls):

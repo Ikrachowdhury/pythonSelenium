@@ -263,8 +263,23 @@ class FlightAdd:
 
 
 class FlightEdit(FlightAdd):
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.Airport = None
+        self.ArrivalTimeR = None
+        self.DepartureTimeR = None
+        self.DurationR = None
+        self.Save = None
+        self.Add = self.find.element_by_xpath(
+            '//*[@id="xcrud-ajax-fk89nm"]/div[1]/a[2]')
+        self.ExportInToCVS = self.find.element_by_xpath('//*[@id="xcrud-ajax-fk89nm"]/div[1]/a[1]')
+
+    def click_export(self):
+        self.find.scroll_to(self.ExportInToCVS)
+        self.ExportInToCVS.click()
 
     def click_add_route(self):
+        self.ExportInToCVS.click()
         pass
 
     def set_airport_route(self, value):
