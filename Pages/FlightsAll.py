@@ -1,7 +1,5 @@
 import time
-
 from selenium.webdriver import Keys
-
 from Base import Util
 
 
