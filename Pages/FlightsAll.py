@@ -213,8 +213,7 @@ class FlightAdd:
         self.Duration.click()
         self.Duration.send_keys(value)
 
-    def set_departure_time(self):
-        self.DepartureTime.click()
+    def time_box(self):
         hour = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[2]/div/a')
         hour.click()
         self.find.element_action(hour)
@@ -225,17 +224,13 @@ class FlightAdd:
         sec.click()
         self.find.element_action(sec)
 
+    def set_departure_time(self):
+        self.DepartureTime.click()
+        self.time_box()
+
     def set_arrival_time(self):
         self.ArrivalTime.click()
-        hour = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[2]/div/a')
-        hour.click()
-        self.find.element_action(hour)
-        min = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[3]/div/a')
-        min.click()
-        self.find.element_action(min)
-        sec = self.find.element_by_xpath('//*[@id="ui-datepicker-div"]/div[2]/dl/dd[4]/div/a')
-        sec.click()
-        self.find.element_action(sec)
+        self.time_box()
 
     def set_baggage(self, value):
         self.Baggage.click()
@@ -265,37 +260,52 @@ class FlightAdd:
 class FlightEdit(FlightAdd):
     def __init__(self, driver):
         super().__init__(driver)
+        self.AirportString = None
         self.Airport = None
         self.ArrivalTimeR = None
         self.DepartureTimeR = None
         self.DurationR = None
         self.Save = None
-        self.Add = self.find.element_by_xpath(
-            '//*[@id="xcrud-ajax-fk89nm"]/div[1]/a[2]')
-        self.ExportInToCVS = self.find.element_by_xpath('//*[@id="xcrud-ajax-fk89nm"]/div[1]/a[1]')
+        self.Add = None
+        self.ExportInToCVS = None
 
     def click_export(self):
         self.find.scroll_to(self.ExportInToCVS)
+        self.ExportInToCVS = self.find.element_by_xpath('//*[@id="xcrud-ajax-fk89nm"]/div[1]/a[1]')
         self.ExportInToCVS.click()
+        link = self.find.switch_to_window()
+        return link
 
     def click_add_route(self):
-        self.ExportInToCVS.click()
-        pass
+        self.find.scroll_to(self.Add)
+        self.Add = self.find.element_by_xpath(
+            '//*[@id="xcrud-ajax-fk89nm"]/div[1]/a[2]')
+        self.Add.click()
+        self.Airport = self.find.element_by_xpath(
+            '// *[ @ id = "xcrud-ajax-i0mkrn"] / div[2] / table / tbody / tr[1] / td[2] / span / span[1] / span')
+        self.ArrivalTimeR = self.find.element_by_name("ZmxpZ2h0c19yb3V0ZXMuYXJyaXZhbF90aW1l")
+        self.DepartureTimeR = self.find.element_by_name("ZmxpZ2h0c19yb3V0ZXMuZGVwYXJ0dXJlX3RpbWU-")
+        self.DurationR = self.find.element_by_xpath('//*[@id="xcrud-ajax-i0mkrn"]/div[2]/table/tbody/tr[4]/td[2]/input')
+        self.AirportString = self.find.element_by_xpath('//*[@id="xcrud-ajax-i0mkrn"]/div[2]/table/tbody/tr[1]/td[1]')
+        return self.AirportString
 
     def set_airport_route(self, value):
-        pass
+        self.Airport.click()
+        self.select_option(value, "/html/body/span/span/span[1]/input")
 
-    def set_arraival_time_route(self, value):
-        pass
+    def set_arrival_time_route(self, value):
+        self.ArrivalTimeR.send_keys(value)
+        self.time_box()
 
     def set_departure_time_route(self, value):
-        pass
+        self.Airport.click()
+        self.time_box()
 
-    def duration_rooute(self, value):
-        pass
+    def set_duration_route(self, value):
+        self.DepartureTimeR.send_keys(value)
+        self.time_box()
 
-    def click_on_save(self):
-        pass
+    def click_on_save_route(self):
+        self.Save = self.find.element_by_xpath('//*[@id="xcrud-ajax-i0mkrn"]/div[1]/a[1]')
+        self.Save.click()
 
-    def click_on_return(self):
-        pass

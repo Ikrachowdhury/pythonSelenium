@@ -57,8 +57,15 @@ class ElementsUtil(WindowManager.WindowManager):
                 self.element_array.append(element)
         return self.element_array
 
-    def execute_script(self,element):
-         self.driver.execute_script("arguments[0].style = 'left: 22.0339%;';", element)
+    def execute_script(self, element):
+        self.driver.execute_script("arguments[0].style = 'left: 22.0339%;';", element)
+
+    def switch_to_window(self):
+        window_handles = self.driver.window_handles
+        self.driver.switch_to.window(window_handles[1])
+        link = self.driver.current_url
+        self.driver.switch_to.window(window_handles[0])
+        return link
 
     def element_action(self, element):
         actions = ActionChains(self.driver)

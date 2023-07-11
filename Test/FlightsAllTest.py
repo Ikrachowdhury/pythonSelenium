@@ -102,16 +102,18 @@ class FlightsAllTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "Invalid input")
         time.sleep(6)
 
-    # ************************************************************ search end****************************************
     def test_Back_button(self):
         self.test_flightPageAppear_TC1()
         actualResult = self.flight.click_back_button()
         baseSetUp.check_result_string(actualResult, "Dashboard")
         time.sleep(3)
 
+    # ************************************************************ search end****************************************
+
     # *******************************************************************************************************************************************************
 
     # *********************************************************** Add Flights Test Cases ***************************
+
     def FlightValues(self):
         self.test_AddNewFlightOptionAppear_TC2()
         self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
@@ -205,19 +207,65 @@ class FlightsAllTesCases(unittest.TestCase):
 
         # **************************************************Edit Flight Test Cases *********************************************
 
-    def test_EditFlightValid_TC10(self):
+    def before(self):
         self.test_EditButton_TC14()
         self.flightEdit = FlightsAll.FlightEdit(SetUp.driver)
-        pass
 
-    def test_EditFlightValid_TC12(self):
-        pass
+    def FlightValuesEdit(self):
+        self.before()
+        self.flightAdd.set_status("Enabled")
+        self.flightAdd.set_airline("12 North")
+        self.flightAdd.set_id("supplier@phptravels.com")
+        self.flightAdd.set_airport_from("06C")
+        self.flightAdd.set_airport_to("04G")
+        self.flightAdd.set_duration("45")
+        self.flightAdd.set_type("Economy")
+        self.flightAdd.set_refundable("Disable")
+        self.flightAdd.set_departure_time()
+        self.flightAdd.set_arrival_time()
+        self.flightAdd.set_baggage("3")
+        self.flightAdd.set_cabin_baggage("5")
+
+        self.flightAdd.set_adult_price("1000")
+        self.flightAdd.set_child_price("500")
+        self.flightAdd.set_infant_price("90")
+
+    def test_EditFlightValid_TC10(self):
+        self.FlightValuesEdit()
+        self.flightAdd.click_on_save()
+
+    def test_EditFlightInvalid_TC12(self):
+        self.FlightValuesEdit()
+        self.flightAdd.set_adult_price("hsdjdfh")
+        self.flightAdd.set_child_price("dsah")
+        self.flightAdd.click_on_save()
 
     def test_SaveWithOutChange_TC11(self):
+        self.before()
+        self.flightAdd.click_on_save_route()
+        pageTittle = SetUp.driver.title
+        baseSetUp.check_result_string(pageTittle, "Flights")
         pass
 
-    def test_Return_Button(self):
-        pass
+    def test_AddtButton_TC10(self):
+        self.before()
+        actualResult = self.flightEdit.click_add_route()
+        baseSetUp.check_result_string(actualResult, "airport")
+        time.sleep(6)
+
+    def test_add_FlightsRute_TC10(self):
+        self.test_AddtButton_TC10()
+        self.flightEdit.set_airport_route("04G")
+        self.flightEdit.set_arrival_time_route()
+        self.flightEdit.set_departure_time_route()
+        self.flightEdit.set_duration_route(4)
+        self.flightEdit.click_on_save_route()
+
+    def test_ExportButton_TC10(self):
+        self.before()
+        actualResult = self.flightEdit.click_export()
+        baseSetUp.check_result_string(actualResult, "https://phptravels.net/admin/xcrud/xcrud_ajax.php")
+        time.sleep(6)
 
     @classmethod
     def tearDownClass(cls):
