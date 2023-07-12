@@ -36,7 +36,9 @@ class FlightAirlineTesCases(unittest.TestCase):
         pass
 
     def test_DeleteButton_TC10(self):
-        pass
+        self.test_FightAirlinePageAppear_TC()
+        self.flightAirlineView.click_delete_button(0, "yes")
+        time.sleep(3)
 
     def test_StatusChange_TC8(self):
         self.test_FightAirlinePageAppear_TC()
@@ -53,7 +55,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "deleteAll")
         time.sleep(3)
 
-    def test_DeleteAll_TC15(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_DeleteAll_TC15(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_ClickCheckbox_TC9()
         self.flightAirlineView.click_checkbox_all()
 
@@ -86,20 +88,24 @@ class FlightAirlineTesCases(unittest.TestCase):
 
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def AirlineValues(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def AirlineValues(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewAirlinePageAppear_TC2()
         self.flightAirlineAdd = FlightsAirline.AddFlightAirline(SetUp.driver)
         self.flightAirlineAdd.set_status("Enabled")
-        self.flightAirlineAdd.set_iata("BNG")
-        self.flightAirlineAdd.set_name("Bangladesh Airline")
+        self.flightAirlineAdd.set_iata("BNA")
+        self.flightAirlineAdd.set_name("Air Bangladesh")
         self.flightAirlineAdd.set_country("Bangladesh")
 
-    def test_AddANewAirlineValid_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddANewAirlineValid_TC2(self):
         self.AirlineValues()
         self.flightAirlineAdd.click_on_save()
+        actualResult = self.flightAirlineView.get_first_element_from_table()
+        print(actualResult)
+        expectedResult = ('BNA', 'Air Bangladesh')
+        baseSetUp.check_result_string(actualResult, expectedResult)
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddWithoutValue_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewAirlinePageAppear_TC2()
         self.flightAirlineAdd = FlightsAirline.AddFlightAirline(SetUp.driver)
         self.flightAirlineAdd.set_status("")
@@ -126,8 +132,6 @@ class FlightAirlineTesCases(unittest.TestCase):
         actualResult = self.flightAirlineAdd.get_text_popup()
         baseSetUp.check_result_string(actualResult, "Invalid input")
         time.sleep(3)
-
-
 
     @classmethod
     def tearDownClass(cls):

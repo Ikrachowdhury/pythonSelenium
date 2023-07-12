@@ -36,7 +36,9 @@ class FlightFeaturedTesCases(unittest.TestCase):
         pass
 
     def test_DeleteButton_TC10(self):
-        pass
+        self.test_FightFeaturedPageAppear_TC()
+        self.flightFeaturedView.click_delete_button(0, "yes")
+        time.sleep(3)
 
     def test_StatusChange_TC8(self):
         self.test_FightFeaturedPageAppear_TC()
@@ -86,21 +88,25 @@ class FlightFeaturedTesCases(unittest.TestCase):
 
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def FeaturedValues(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def FeaturedValues(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewFeaturedPageAppear_TC2()
         self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(SetUp.driver)
         self.flightFeaturedAdd.set_status("Enabled")
-        self.flightFeaturedAdd.set_airline("Bangladesh Airline")
-        self.flightFeaturedAdd.set_from_airport("BNG")
-        self.flightFeaturedAdd.set_to_airport("04G")
-        self.flightFeaturedAdd.set_price("1000")
+        self.flightFeaturedAdd.set_airline("135 Airways")
+        self.flightFeaturedAdd.set_from_airport("CTG_1")
+        self.flightFeaturedAdd.set_to_airport("DHK-1")
+        self.flightFeaturedAdd.set_price("3000")
 
-    def test_AddANewFeaturedValid_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddANewFeaturedValid_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.FeaturedValues()
         self.flightFeaturedAdd.click_on_save()
+        actualResult = self.flightFeaturedView.get_first_element_from_table()
+        print(actualResult)
+        expectedResult = ('135 Airways', 'CTG_1', 'DHK-1')
+        baseSetUp.check_result_string(actualResult, expectedResult)
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddWithoutValue_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewFeaturedPageAppear_TC2()
         self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(SetUp.driver)
         self.flightFeaturedAdd.set_status("")
@@ -126,8 +132,6 @@ class FlightFeaturedTesCases(unittest.TestCase):
         actualResult = self.flightFeaturedAdd.get_text_popup()
         baseSetUp.check_result_string(actualResult, "Invalid input")
         time.sleep(3)
-
-
 
     @classmethod
     def tearDownClass(cls):

@@ -36,7 +36,9 @@ class FlightAirportTesCases(unittest.TestCase):
         pass
 
     def test_DeleteButton_TC10(self):
-        pass
+        self.test_FightAirportPageAppear_TC()
+        self.flightAirPortView.click_delete_button(0,"yes")
+        time.sleep(3)
 
     def test_StatusChange_TC8(self):
         self.test_FightAirportPageAppear_TC()
@@ -80,27 +82,27 @@ class FlightAirportTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "mainpage")
         time.sleep(3)
 
-    # ************************************************************ search end****************************************
-
-    # *******************************************************************************************************************************************************
-
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def AirportValues(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def AirportValues(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewAirportPageAppear_TC2()
         self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
         self.flightAirPortAdd.set_status("Enabled")
-        self.flightAirPortAdd.set_code("NS0")
-        self.flightAirPortAdd.set_airport("Dhaka Airport")
-        self.flightAirPortAdd.set_city("Dhaka")
+        self.flightAirPortAdd.set_code("CTG_1")
+        self.flightAirPortAdd.set_airport("Ctg Airport")
+        self.flightAirPortAdd.set_city("Chattogram")
         self.flightAirPortAdd.set_country("Bangladesh")
 
-    def test_AddANewAirportValid_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddANewAirportValid_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.AirportValues()
         self.flightAirPortAdd.click_on_save()
+        actualResult = self.flightAirPortView.get_first_element_from_table()
+        print(actualResult)
+        expectedResult = ('CTG_1', 'Ctg Airport', 'Chattogram')
+        baseSetUp.check_result_string(actualResult,expectedResult)
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddWithoutValue_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewAirportPageAppear_TC2()
         self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
         self.flightAirPortAdd.set_status("")
@@ -127,8 +129,6 @@ class FlightAirportTesCases(unittest.TestCase):
         actualResult = self.flightAirPortAdd.get_text_popup()
         baseSetUp.check_result_string(actualResult, "Invalid input")
         time.sleep(3)
-
-
 
     @classmethod
     def tearDownClass(cls):

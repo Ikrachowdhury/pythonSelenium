@@ -35,7 +35,9 @@ class FlightFeaturedTesCases(unittest.TestCase):
         pass
 
     def test_DeleteButton_TC10(self):
-        pass
+        self.test_FlightSuggestionPageAppear_TC()
+        self.FlightSuggestionView.click_delete_button(0, "yes")
+        time.sleep(3)
 
     def test_StatusChange_TC8(self):
         self.test_FlightSuggestionPageAppear_TC()
@@ -86,20 +88,24 @@ class FlightFeaturedTesCases(unittest.TestCase):
 
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def SuggestionValues(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def SuggestionValues(self):
         self.test_AddNewSuggestionAppear_TC2()
         self.FlightSuggestionAdd = FlightSuggestion.AddFlightSuggestion(SetUp.driver)
         self.FlightSuggestionAdd.set_status("Enabled")
         self.FlightSuggestionAdd.set_type("From_destination")
-        self.FlightSuggestionAdd.set_city_airport("BNG")
-        self.FlightSuggestionAdd.set_order("1")
+        self.FlightSuggestionAdd.set_city_airport("CTG_1")
+        self.FlightSuggestionAdd.set_order("0")
 
-    def test_AddANewSuggestionValid_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddANewSuggestionValid_TC2(self):
         self.SuggestionValues()
         self.FlightSuggestionAdd.click_on_save()
+        actualResult = self.FlightSuggestionView.get_first_element_from_table()
+        print(actualResult)
+        expectedResult = ('from_destination', 'CTG_1')
+        baseSetUp.check_result_string(actualResult, expectedResult)
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddWithoutValue_TC2(self):
         self.test_AddNewSuggestionAppear_TC2()
         self.FlightSuggestionAdd = FlightSuggestion.AddFlightSuggestion(SetUp.driver)
         self.FlightSuggestionAdd.set_status(" ")

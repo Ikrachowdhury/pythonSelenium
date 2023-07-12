@@ -37,6 +37,13 @@ class FlightAirPortView:
         self.Status = self.find.get_table_element(self.TableArray, buttonNumber, 'updated_status')
         self.Status.click()
 
+    def click_delete_button(self, buttonNumber, value):
+        self.get_table()
+        self.DeleteButton = self.find.get_table_element(self.TableArray, buttonNumber, 'xcrud-red')
+        self.DeleteButton.click()
+        time.sleep(3)
+        self.find.alert_box(value)
+
     def click_checkbox(self, buttonNumber):
         self.get_table()
         self.Checkbox = self.find.get_table_element(self.TableArray, buttonNumber, 'checkboxcls')
@@ -116,6 +123,16 @@ class FlightAirPortView:
     def get_text_popup(self):
         self.PopUpBox = self.find.element_by_xpath("/html/body/div[2]/div[1]/div[2]/div")
         return self.PopUpBox.text
+
+    def get_first_element_from_table(self):
+        self.get_table()
+        code = self.find.get_table_element_xpath(self.TableArray, 0,
+                                                 '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[4]')
+        airport = self.find.get_table_element_xpath(self.TableArray, 0,
+                                                    '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[5]')
+        city = self.find.get_table_element_xpath(self.TableArray, 0,
+                                                 '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[6]')
+        return code.text, airport.text, city.text
 
 
 class AddFlightAirPort:

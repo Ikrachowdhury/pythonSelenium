@@ -89,10 +89,10 @@ class ElementsUtil(WindowManager.WindowManager):
             self.length = len(table)
             for i in range(self.length):
                 if number == "0":
-                    self.element = table[i].find_element(By.CLASS_NAME, child_element)
+                    self.element = table[i].find_element(By.XPATH, child_element)
                 else:
                     if self.length > number and i == number:
-                        self.element = table[i].find_element(By.CLASS_NAME, child_element)
+                        self.element = table[i].find_element(By.XPATH, child_element)
 
             return self.element
         except Exception as ex:
@@ -106,7 +106,7 @@ class ElementsUtil(WindowManager.WindowManager):
 
     def alert_box(self, value):
         alert = Alert(self.driver)
-        if value == "ok":
+        if value == "yes":
             alert.accept()
         else:
             alert.dismiss()
