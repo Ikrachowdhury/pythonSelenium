@@ -43,10 +43,10 @@ class FlightsAllTesCases(unittest.TestCase):
         print(pageStart)
         baseSetUp.check_result_string(pageStart, "Status")
 
-    def test_DeleteButton_TC10(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_DeleteButton_TC10(self):
         self.test_flightPageAppear_TC1()
-        self.flight.click_delete_button(0)
-        time.sleep(6)
+        self.flight.click_delete_button(0, "yes")
+        time.sleep(3)
 
     def test_StatusChange_TC8(self):
         self.test_flightPageAppear_TC1()
@@ -63,7 +63,7 @@ class FlightsAllTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "deleteAll")
         time.sleep(3)
 
-    def test_DeleteAll_TC15(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_DeleteAll_TC15(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_ClickCheckbox_TC9()
         self.flight.click_delete_all()
 
@@ -118,30 +118,30 @@ class FlightsAllTesCases(unittest.TestCase):
         self.test_AddNewFlightOptionAppear_TC2()
         self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
         self.flightAdd.set_status("Enabled")
-        self.flightAdd.set_airline("12 North")
+        self.flightAdd.set_airline("Air Bangladesh")
         self.flightAdd.set_id("supplier@phptravels.com")
-        self.flightAdd.set_airport_from("06C")
-        self.flightAdd.set_airport_to("04G")
-        self.flightAdd.set_duration("45")
+        self.flightAdd.set_airport_from("CTG_1")
+        self.flightAdd.set_airport_to("DHK-1")
+        self.flightAdd.set_duration("3H")
         self.flightAdd.set_type("Economy")
         self.flightAdd.set_refundable("Disable")
         self.flightAdd.set_departure_time()
         self.flightAdd.set_arrival_time()
-        self.flightAdd.set_baggage("3")
-        self.flightAdd.set_cabin_baggage("5")
+        self.flightAdd.set_baggage("5")
+        self.flightAdd.set_cabin_baggage("3")
 
         self.flightAdd.set_adult_price("1000")
         self.flightAdd.set_child_price("500")
         self.flightAdd.set_infant_price("90")
 
-    def test_AddANewFlightValid_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddANewFlightValid_TC2(self):
         self.FlightValues()
         self.flightAdd.click_on_save()
-
-        firstFlight = self.flight.get_first_flight_from_table()
-        print(firstFlight)
-        baseSetUp.check_result_string(firstFlight, "supplier@phptravels.com")
-        time.sleep(2)
+        actualResult = self.flight.get_first_element_from_table()
+        print(actualResult)
+        expectedResult = ('supplier@phptravels.com', 'Air Bangladesh', 'CTG_1', 'DHK-1')
+        baseSetUp.check_result_string(actualResult, expectedResult)
+        time.sleep(4)
 
     def test_AddWithoutValue_TC2(self):
         self.test_AddNewFlightOptionAppear_TC2()

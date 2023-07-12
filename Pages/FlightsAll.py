@@ -56,9 +56,12 @@ class FlightView:
         print(pageStart)
         return pageStart
 
-    def click_delete_button(self, buttonNumber):
+    def click_delete_button(self, buttonNumber, value):
         self.get_table()
         self.DeleteButton = self.find.get_table_element(self.TableArray, buttonNumber, 'xcrud-red')
+        self.DeleteButton.click()
+        time.sleep(3)
+        self.find.alert_box(value)
 
     def click_satus(self, buttonNumber):
         self.get_table()
@@ -133,10 +136,17 @@ class FlightView:
         time.sleep(5)
         return self.find.driver.tittle
 
-    def get_first_flight_from_table(self):
+    def get_first_element_from_table(self):
         self.get_table()
-        username = self.find.get_table_element(self.TableArray, 0, 'fw-light')
-        return username.text
+        id = self.find.get_table_element_xpath(self.TableArray, 0,
+                                               '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr/td[4]/small')
+        airline = self.find.get_table_element_xpath(self.TableArray, 0,
+                                                    '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr/td[5]')
+        from_airline = self.find.get_table_element_xpath(self.TableArray, 0,
+                                                         '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr/td[6]')
+        to_airline = self.find.get_table_element_xpath(self.TableArray, 0,
+                                                       '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr/td[7]')
+        return id.text, airline.text, from_airline.text, to_airline.text
 
 
 class FlightAdd:
@@ -313,4 +323,3 @@ class FlightEdit(FlightAdd):
     def click_on_save_route(self):
         self.Save = self.find.element_by_xpath('//*[@id="xcrud-ajax-i0mkrn"]/div[1]/a[1]')
         self.Save.click()
-
