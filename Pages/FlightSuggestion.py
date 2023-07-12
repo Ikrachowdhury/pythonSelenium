@@ -3,12 +3,12 @@ from selenium.webdriver import Keys
 from Base import Util
 
 
-class FlightAirPortView:
+class FlightSuggestionView:
     def __init__(self, driver):
         self.find = Util.ElementsUtil(driver)
+        self.TableArray = None
         self.AddButton = None
         self.Status = None
-        self.TableArray = None
         self.EditButton = None
         self.DeleteButton = None
         self.Checkbox = None
@@ -36,6 +36,8 @@ class FlightAirPortView:
         self.get_table()
         self.Status = self.find.get_table_element(self.TableArray, buttonNumber, 'updated_status')
         self.Status.click()
+
+
 
     def click_checkbox(self, buttonNumber):
         self.get_table()
@@ -67,7 +69,7 @@ class FlightAirPortView:
         self.SearchButton.click()
         time.sleep(2)
         self.GoButton = self.find.element_by_xpath(
-            '/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[3]/a')
+            '/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[4]/a')
         return self.GoButton.text
 
     def dropdown(self, value, selector_box, selector_box_info):
@@ -78,6 +80,11 @@ class FlightAirPortView:
         DropboxOptions.send_keys(Keys.ENTER)
 
     def set_field_dropbox(self, value):
+        self.dropdown(value,
+                      "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[3]/span[1]/span",
+                      "/html/body/span/span/span[1]/input")
+
+    def set_type_dropbox(self, value):
         self.dropdown(value,
                       "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[2]/span[1]/span",
                       "/html/body/span/span/span[1]/input")
@@ -94,11 +101,11 @@ class FlightAirPortView:
 
     def click_on_go(self):
         self.GoButton = self.find.element_by_xpath(
-            "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[3]/a")
+            "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[4]/a")
         self.GoButton.click()
         time.sleep(2)
         self.ResetButton = self.find.element_by_xpath(
-            "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[3]/a[2]")
+            "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[4]/a[2]")
         if self.ResetButton.is_displayed():
             return self.ResetButton.text
         else:
@@ -118,15 +125,11 @@ class FlightAirPortView:
         return self.PopUpBox.text
 
 
-class AddFlightAirPort:
+class AddFlightSuggestion:
     def __init__(self, driver):
         self.find = Util.ElementsUtil(driver)
         self.DropBoxName = None
-        self.Code = self.find.element_by_xpath(
-            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[2]/td[2]/input")
-        self.Airport = self.find.element_by_xpath(
-            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[3]/td[2]/input")
-        self.City = self.find.element_by_xpath(
+        self.Order = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[4]/td[2]/input")
         self.Save = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[1]")
         self.Return = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[2]")
@@ -143,26 +146,37 @@ class AddFlightAirPort:
                       "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/span/span[1]/span",
                       "/html/body/span/span/span[1]/input")
 
-    def set_code(self, value):
-        self.Code.click()
-        self.Code.send_keys(value)
-
-    def set_airport(self, value):
-        self.Airport.click()
-        self.Airport.send_keys(value)
-
-    def set_city(self, value):
-        self.City.click()
-        self.City.send_keys(value)
-
-    def set_country(self, value):
+    def set_type(self, value):
         self.dropdown(value,
-                      "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[5]/td[2]/span/span[1]/span",
+                      "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[2]/td[2]/span/span[1]/span",
                       "/html/body/span/span/span[1]/input")
 
+    def set_city_airport(self, value):
+        self.dropdown(value,
+                      "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[3]/td[2]/span/span[1]/span",
+                      "/html/body/span/span/span[1]/input")
+        pass
+
+    def set_order(self, value):
+        self.Order.click()
+        self.Order.send_keys(value)
+
     def click_on_save(self):
-        self.find.scroll_to(self.Save)
         self.Save.click()
 
     def click_on_return(self):
         self.Return.click()
+
+    def check_return_page(self, add_button):
+        if add_button.is_displayed():
+            return "correct page"
+        else:
+            return "error"
+
+    def get_first_element_from_table(self, table):
+        type = self.find.get_table_element_xpath(table, 0,
+                                                 '/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[4]')
+        city_airport = self.find.get_table_element(table, 0,
+                                                   '//html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[5]')
+        return type.text, " ", city_airport.text
+

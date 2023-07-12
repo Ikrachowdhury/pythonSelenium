@@ -3,7 +3,7 @@ from selenium.webdriver import Keys
 from Base import Util
 
 
-class FlightAirPortView:
+class FlightAirlineView:
     def __init__(self, driver):
         self.find = Util.ElementsUtil(driver)
         self.AddButton = None
@@ -118,16 +118,14 @@ class FlightAirPortView:
         return self.PopUpBox.text
 
 
-class AddFlightAirPort:
+class AddFlightAirline:
     def __init__(self, driver):
         self.find = Util.ElementsUtil(driver)
         self.DropBoxName = None
-        self.Code = self.find.element_by_xpath(
+        self.Iata = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[2]/td[2]/input")
-        self.Airport = self.find.element_by_xpath(
+        self.Name = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[3]/td[2]/input")
-        self.City = self.find.element_by_xpath(
-            "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[4]/td[2]/input")
         self.Save = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[1]")
         self.Return = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a[2]")
 
@@ -143,21 +141,17 @@ class AddFlightAirPort:
                       "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/span/span[1]/span",
                       "/html/body/span/span/span[1]/input")
 
-    def set_code(self, value):
-        self.Code.click()
-        self.Code.send_keys(value)
+    def set_iata(self, value):
+        self.Iata.click()
+        self.Iata.send_keys(value)
 
-    def set_airport(self, value):
-        self.Airport.click()
-        self.Airport.send_keys(value)
-
-    def set_city(self, value):
-        self.City.click()
-        self.City.send_keys(value)
+    def set_name(self, value):
+        self.Name.click()
+        self.Name.send_keys(value)
 
     def set_country(self, value):
         self.dropdown(value,
-                      "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[5]/td[2]/span/span[1]/span",
+                      "/html/body/main/section/div[2]/div/div/div[1]/div[2]/table/tbody/tr[4]/td[2]/span/span[1]/span",
                       "/html/body/span/span/span[1]/input")
 
     def click_on_save(self):

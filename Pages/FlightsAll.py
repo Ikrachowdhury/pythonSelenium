@@ -253,6 +253,13 @@ class FlightAdd:
 
     def click_on_return(self):
         self.Return.click()
+        self.ResetButton.click()
+        time.sleep(3)
+        self.AddButton = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a")
+        if self.AddButton.is_displayed():
+            return "mainpage"
+        else:
+            return self.AddButton.text
 
 
 class FlightEdit(FlightAdd):

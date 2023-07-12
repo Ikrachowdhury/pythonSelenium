@@ -6,7 +6,7 @@ from Pages import FlightAirPort, DashBoard
 baseSetUp = SetUp.MyTestCase()
 
 
-class FlightsAllTesCases(unittest.TestCase):
+class FlightAirportTesCases(unittest.TestCase):
 
     def setUp(self):
         baseSetUp.setUpClass()
@@ -84,9 +84,9 @@ class FlightsAllTesCases(unittest.TestCase):
 
     # *******************************************************************************************************************************************************
 
-    # *********************************************************** Add Flights Test Cases ***************************
+    # *********************************************************** Add Airport Test Cases ***************************
 
-    def AirportValues(self):
+    def AirportValues(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewAirportPageAppear_TC2()
         self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
         self.flightAirPortAdd.set_status("Enabled")
@@ -95,12 +95,12 @@ class FlightsAllTesCases(unittest.TestCase):
         self.flightAirPortAdd.set_city("Dhaka")
         self.flightAirPortAdd.set_country("Bangladesh")
 
-    def test_AddANewAirportValid_TC2(self):
+    def test_AddANewAirportValid_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.AirportValues()
         self.flightAirPortAdd.click_on_save()
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):
+    def test_AddWithoutValue_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_AddNewAirportPageAppear_TC2()
         self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
         self.flightAirPortAdd.set_status("")

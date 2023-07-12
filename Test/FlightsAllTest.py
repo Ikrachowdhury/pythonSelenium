@@ -43,7 +43,7 @@ class FlightsAllTesCases(unittest.TestCase):
         print(pageStart)
         baseSetUp.check_result_string(pageStart, "Status")
 
-    def test_DeleteButton_TC10(self):
+    def test_DeleteButton_TC10(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_flightPageAppear_TC1()
         self.flight.click_delete_button(0)
         time.sleep(6)
@@ -63,7 +63,7 @@ class FlightsAllTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "deleteAll")
         time.sleep(3)
 
-    def test_DeleteAll_TC15(self):
+    def test_DeleteAll_TC15(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_ClickCheckbox_TC9()
         self.flight.click_delete_all()
 
@@ -134,7 +134,7 @@ class FlightsAllTesCases(unittest.TestCase):
         self.flightAdd.set_child_price("500")
         self.flightAdd.set_infant_price("90")
 
-    def test_AddANewFlightValid_TC2(self):
+    def test_AddANewFlightValid_TC2(self):#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.FlightValues()
         self.flightAdd.click_on_save()
 
