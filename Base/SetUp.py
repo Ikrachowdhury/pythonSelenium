@@ -13,13 +13,21 @@ class MyTestCase(unittest.TestCase):
     def setUpClass(cls):
         driver.maximize_window()
         driver.implicitly_wait(500)
-        driver.get("https://phptravels.net/admin/login.php")
 
     def setUp(self):
+        driver.get("https://phptravels.net/admin/login.php")
         log = LoginPage.Login(driver)
         log.set_password("demoadmin")
         log.set_mail("admin@phptravels.com")
         log.click_submit_button()
+        time.sleep(10)
+
+    def agent_login(self):
+        driver.get("https://phptravels.net/login")
+        log = LoginPage.Login(driver)
+        log.set_password("demoagent")
+        log.set_mail("agent@phptravels.com")
+        log.click_login_button()
         time.sleep(10)
 
     def check_result_string(self, actual_result, expected):

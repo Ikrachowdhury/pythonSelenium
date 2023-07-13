@@ -131,8 +131,6 @@ class FlightFeaturedTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "Invalid input")
         time.sleep(3)
 
-
-
     @classmethod
     def tearDownClass(cls):
         SetUp.driver.close()

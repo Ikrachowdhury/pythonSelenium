@@ -10,7 +10,8 @@ class Login:
         self.find = Util.ElementsUtil(driver)
         self.EmailField = self.find.element_by_id('email')
         self.PasswordField = self.find.element_by_id('password')
-        self.SubmitButton = self.find.element_by_id('submit')
+        self.SubmitButton = None
+        self.LogInButton = None
 
     def set_mail(self, email):
         self.EmailField.send_keys(email)
@@ -19,4 +20,9 @@ class Login:
         self.PasswordField.send_keys(password)
 
     def click_submit_button(self):
+        self.SubmitButton = self.find.element_by_id('submit')
         self.SubmitButton.click()
+
+    def click_login_button(self):
+        self.LogInButton = self.find.element_by_id('submitBTN')
+        self.LogInButton.click()
