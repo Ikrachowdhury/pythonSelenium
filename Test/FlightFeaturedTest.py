@@ -19,7 +19,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
         self.flightFeaturedAdd = None  # FlightAirPort.FlightAirPortView(SetUp.driver)
 
     # *************************************View Section test Cases***********************************************************************************
-    def test_FightFeaturedPageAppear_TC(self):
+    def test_FightFeaturedPageAppear(self):
         self.dashboard.goto_all_flights()
         self.dashboard.goto_featured_flight()
         time.sleep(3)
@@ -27,21 +27,21 @@ class FlightFeaturedTesCases(unittest.TestCase):
         # print(pageTittle)
         baseSetUp.check_result_string(pageTittle, "Flights Featured")
 
-    def test_AddNewFeaturedPageAppear_TC2(self):
-        self.test_FightFeaturedPageAppear_TC()
+    def test_AddNewFeaturedPageAppear(self):
+        self.test_FightFeaturedPageAppear()
         pageStart = self.flightFeaturedView.click_Add_button()
         baseSetUp.check_result_string(pageStart, "Status")
 
-    def test_EditButton_TC14(self):
+    def test_EditButton(self):
         pass
 
-    def test_DeleteButton_TC10(self):
-        self.test_FightFeaturedPageAppear_TC()
+    def test_DeleteButton(self):
+        self.test_FightFeaturedPageAppear()
         self.flightFeaturedView.click_delete_button(0, "yes")
         time.sleep(3)
 
-    def test_StatusChange_TC8(self):
-        self.test_FightFeaturedPageAppear_TC()
+    def test_StatusChange(self):
+        self.test_FightFeaturedPageAppear()
         self.flightFeaturedView.click_satus(0)
         time.sleep(2)
         actualResult = self.flightFeaturedView.get_text_popup()
@@ -49,25 +49,25 @@ class FlightFeaturedTesCases(unittest.TestCase):
                                       "Info Updated\n" + "Information updated successfully")
         time.sleep(6)
 
-    def test_ClickCheckbox_TC9(self):
-        self.test_FightFeaturedPageAppear_TC()
+    def test_ClickCheckbox(self):
+        self.test_FightFeaturedPageAppear()
         actualResult = self.flightFeaturedView.click_checkbox(0)
         baseSetUp.check_result_string(actualResult, "deleteAll")
         time.sleep(3)
 
-    def test_DeleteAll_TC15(self):
-        self.test_ClickCheckbox_TC9()
+    def test_DeleteAll(self):
+        self.test_ClickCheckbox()
         self.flightFeaturedView.click_checkbox_all()
 
     # **************************************************Flight search section Test Cases*************************
-    def test_ClickSearchFeaturedAppear_TC16n17(self):
-        self.test_FightFeaturedPageAppear_TC()
+    def test_ClickSearchFeaturedAppear(self):
+        self.test_FightFeaturedPageAppear()
         actualResult = self.flightFeaturedView.click_search_button()
         baseSetUp.check_result_string(actualResult, "Go")
         time.sleep(3)
 
-    def test_SearchFeaturedValid_TC16(self):
-        self.test_ClickSearchFeaturedAppear_TC16n17()
+    def test_SearchFeaturedValid(self):
+        self.test_ClickSearchFeaturedAppear()
         self.flightFeaturedView.set_field_dropbox("All fields")
         self.flightFeaturedView.set_no_dropBox("1")
         self.flightFeaturedView.set_input_box("American Airlines")
@@ -76,7 +76,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_Reset_button(self):
-        self.test_SearchFeaturedValid_TC16()
+        self.test_SearchFeaturedValid()
         time.sleep(3)
         actualResult = self.flightFeaturedView.click_on_reset()
         baseSetUp.check_result_string(actualResult, "mainpage")
@@ -88,8 +88,8 @@ class FlightFeaturedTesCases(unittest.TestCase):
 
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def FeaturedValues(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        self.test_AddNewFeaturedPageAppear_TC2()
+    def FeaturedValues(self):
+        self.test_AddNewFeaturedPageAppear()
         self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(SetUp.driver)
         self.flightFeaturedAdd.set_status("Enabled")
         self.flightFeaturedAdd.set_airline("135 Airways")
@@ -97,7 +97,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
         self.flightFeaturedAdd.set_to_airport("DHK-1")
         self.flightFeaturedAdd.set_price("3000")
 
-    def test_AddANewFeaturedValid_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddANewFeaturedValid(self):
         self.FeaturedValues()
         self.flightFeaturedAdd.click_on_save()
         actualResult = self.flightFeaturedView.get_first_element_from_table()
@@ -106,8 +106,8 @@ class FlightFeaturedTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, expectedResult)
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        self.test_AddNewFeaturedPageAppear_TC2()
+    def test_AddWithoutValue(self):
+        self.test_AddNewFeaturedPageAppear()
         self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(SetUp.driver)
         self.flightFeaturedAdd.set_status("")
         self.flightFeaturedAdd.set_airline("")
@@ -116,7 +116,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
         self.flightFeaturedAdd.set_price("")
         self.flightFeaturedAdd.click_on_save()
 
-    def test_AddSameFeaturedTwice_TC4(self):
+    def test_AddSameFeaturedTwice(self):
         self.FeaturedValues()
         self.flightFeaturedAdd.click_on_save()
 
@@ -124,7 +124,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "Flight Already exits")
         time.sleep(3)
 
-    def test_PriceInput_TC5(self):
+    def test_PriceInput(self):
         self.FeaturedValues()
         self.flightFeaturedAdd.set_price("1gjhghffx")
         self.flightFeaturedAdd.click_on_save()

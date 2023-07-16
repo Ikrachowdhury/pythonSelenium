@@ -48,7 +48,6 @@ class ElementsUtil(WindowManager.WindowManager):
         self.element = self.driver.find_element(By.CLASS_NAME, selector)
         return self.element
 
-    # **********************************************************************************************************************************************
     def array_of_table(self, selector_type, selector):
         if selector_type == "class":
             self.elements = self.driver.find_elements(By.CLASS_NAME, selector)
@@ -110,5 +109,3 @@ class ElementsUtil(WindowManager.WindowManager):
             alert.accept()
         else:
             alert.dismiss()
-
-

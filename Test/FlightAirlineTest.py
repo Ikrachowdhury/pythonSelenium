@@ -19,7 +19,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         self.flightAirlineAdd = None
 
     # *************************************View Section test Cases***********************************************************************************
-    def test_FightAirlinePageAppear_TC(self):
+    def test_FightAirlinePageAppear(self):
         self.dashboard.goto_all_flights()
         self.dashboard.goto_airline_flight()
         time.sleep(3)
@@ -27,21 +27,21 @@ class FlightAirlineTesCases(unittest.TestCase):
         # print(pageTittle)
         baseSetUp.check_result_string(pageTittle, "Airlines")
 
-    def test_AddNewAirlinePageAppear_TC2(self):
-        self.test_FightAirlinePageAppear_TC()
+    def test_AddNewAirlinePageAppear(self):
+        self.test_FightAirlinePageAppear()
         pageStart = self.flightAirlineView.click_Add_button()
         baseSetUp.check_result_string(pageStart, "Status")
 
-    def test_EditButton_TC14(self):
+    def test_EditButton(self):
         pass
 
-    def test_DeleteButton_TC10(self):
-        self.test_FightAirlinePageAppear_TC()
+    def test_DeleteButton(self):
+        self.test_FightAirlinePageAppear()
         self.flightAirlineView.click_delete_button(0, "yes")
         time.sleep(3)
 
-    def test_StatusChange_TC8(self):
-        self.test_FightAirlinePageAppear_TC()
+    def test_StatusChange(self):
+        self.test_FightAirlinePageAppear()
         self.flightAirlineView.click_satus(0)
         time.sleep(2)
         actualResult = self.flightAirlineView.get_text_popup()
@@ -49,25 +49,25 @@ class FlightAirlineTesCases(unittest.TestCase):
                                       "Info Updated\n" + "Information updated successfully")
         time.sleep(6)
 
-    def test_ClickCheckbox_TC9(self):
-        self.test_FightAirlinePageAppear_TC()
+    def test_ClickCheckbox(self):
+        self.test_FightAirlinePageAppear()
         actualResult = self.flightAirlineView.click_checkbox(0)
         baseSetUp.check_result_string(actualResult, "deleteAll")
         time.sleep(3)
 
-    def test_DeleteAll_TC15(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        self.test_ClickCheckbox_TC9()
+    def test_DeleteAll(self):
+        self.test_ClickCheckbox()
         self.flightAirlineView.click_checkbox_all()
 
     # **************************************************Flight search section Test Cases*************************
-    def test_ClickSearchAirlineAppear_TC16n17(self):
-        self.test_FightAirlinePageAppear_TC()
+    def test_ClickSearchAirlineAppear(self):
+        self.test_FightAirlinePageAppear()
         actualResult = self.flightAirlineView.click_search_button()
         baseSetUp.check_result_string(actualResult, "Go")
         time.sleep(3)
 
-    def test_SearchAirlineValid_TC16(self):
-        self.test_ClickSearchAirlineAppear_TC16n17()
+    def test_SearchAirlineValid(self):
+        self.test_ClickSearchAirlineAppear()
         self.flightAirlineView.set_field_dropbox("All fields")
         self.flightAirlineView.set_no_dropBox("1")
         self.flightAirlineView.set_input_box("Russia")
@@ -76,7 +76,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_Reset_button(self):
-        self.test_ClickSearchAirlineAppear_TC16n17()
+        self.test_ClickSearchAirlineAppear()
         time.sleep(3)
         actualResult = self.flightAirlineView.click_on_reset()
         baseSetUp.check_result_string(actualResult, "mainpage")
@@ -88,15 +88,15 @@ class FlightAirlineTesCases(unittest.TestCase):
 
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def AirlineValues(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        self.test_AddNewAirlinePageAppear_TC2()
+    def AirlineValues(self):
+        self.test_AddNewAirlinePageAppear()
         self.flightAirlineAdd = FlightsAirline.AddFlightAirline(SetUp.driver)
         self.flightAirlineAdd.set_status("Enabled")
         self.flightAirlineAdd.set_iata("BNA")
         self.flightAirlineAdd.set_name("Air Bangladesh")
         self.flightAirlineAdd.set_country("Bangladesh")
 
-    def test_AddANewAirlineValid_TC2(self):
+    def test_AddANewAirlineValid(self):
         self.AirlineValues()
         self.flightAirlineAdd.click_on_save()
         actualResult = self.flightAirlineView.get_first_element_from_table()
@@ -105,8 +105,8 @@ class FlightAirlineTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, expectedResult)
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        self.test_AddNewAirlinePageAppear_TC2()
+    def test_AddWithoutValue(self):
+        self.test_AddNewAirlinePageAppear()
         self.flightAirlineAdd = FlightsAirline.AddFlightAirline(SetUp.driver)
         self.flightAirlineAdd.set_status("")
         self.flightAirlineAdd.set_status("")
@@ -115,7 +115,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         self.flightAirlineAdd.set_country("")
         self.flightAirlineAdd.click_on_save()
 
-    def test_AddSameAirlineTwice_TC4(self):
+    def test_AddSameAirlineTwice(self):
         self.AirlineValues()
         self.flightAirlineAdd.click_on_save()
 
@@ -123,7 +123,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "Flight Already exits")
         time.sleep(3)
 
-    def test_AddAirlineInvalid_TC5(self):
+    def test_AddAirlineInvalid(self):
         self.AirlineValues()
         self.flightAirlineAdd.set_airport("kjwhiu")
         self.flightAirlineAdd.set_city("123")
