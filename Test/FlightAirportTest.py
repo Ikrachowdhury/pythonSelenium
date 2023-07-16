@@ -84,16 +84,20 @@ class FlightAirportTesCases(unittest.TestCase):
 
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def AirportValues(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def AirportValues(self):
         self.test_AddNewAirportPageAppear_TC2()
         self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
         self.flightAirPortAdd.set_status("Enabled")
-        self.flightAirPortAdd.set_code("CTG_1")
-        self.flightAirPortAdd.set_airport("Ctg Airport")
-        self.flightAirPortAdd.set_city("Chattogram")
+        # self.flightAirPortAdd.set_code("CTG_1")
+        # self.flightAirPortAdd.set_airport("Ctg Airport")
+        # self.flightAirPortAdd.set_city("Chattogram")
         self.flightAirPortAdd.set_country("Bangladesh")
 
-    def test_AddANewAirportValid_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        self.flightAirPortAdd.set_code("DHK-1")
+        self.flightAirPortAdd.set_airport("Dhaka Airport")
+        self.flightAirPortAdd.set_city("Dhaka")
+
+    def test_AddANewAirportValid_TC2(self):
         self.AirportValues()
         self.flightAirPortAdd.click_on_save()
         actualResult = self.flightAirPortView.get_first_element_from_table()
@@ -102,7 +106,7 @@ class FlightAirportTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult,expectedResult)
         time.sleep(4)
 
-    def test_AddWithoutValue_TC2(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def test_AddWithoutValue_TC2(self):
         self.test_AddNewAirportPageAppear_TC2()
         self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
         self.flightAirPortAdd.set_status("")
