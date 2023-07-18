@@ -9,6 +9,9 @@ def click_on_Flights():
 
 class SearchFlight:
     def __init__(self, driver):
+        self.select = None
+        self.airport_selected = None
+        self.Flying = None
         self.search = None
         self.trip = None
         self.type = None
@@ -16,7 +19,7 @@ class SearchFlight:
         self.find = Util.ElementsUtil(driver)
 
     def goto_flights(self):
-        self.Flight = self.find.element_by_xpath('//*[@id="navbarSupportedContent"]/div[1]/ul/li[1]/a')
+        self.Flight = self.find.element_by_xpath("//a[normalize-space()='Flights']")
         self.Flight.click()
 
     def dropdown(self, city, value, selector_box, selector_box_info):
@@ -24,11 +27,18 @@ class SearchFlight:
         flying.click()
         flying_input = self.find.element_by_xpath(selector_box_info)
         flying_input.send_keys(city)
-        time.sleep(6)
+        time.sleep(3)
         flying_options = self.find.array_of_table("class", "select2-results__option")
-        Flying = self.find.get_table_element(flying_options, value, "btn")
-        Flying.click()
+        length = len(flying_options)
+        for i in range(length):
+            self.Flying = self.find.get_table_element(flying_options, i, "btn")
+            if self.Flying.is_displayed():
+                if self.Flying.text == value:
+                    self.airport_selected = self.Flying.text
+                    self.Flying.click()
+                    break
         time.sleep(5)
+        return self.airport_selected
 
     def set_type(self, value):
         self.type = self.find.element_by_id("flight_type")
@@ -50,10 +60,12 @@ class SearchFlight:
     def set_flying_from(self, city, value):
         self.dropdown(city, value, '//*[@id="onereturn"]/div[1]/div[1]/div[2]/span/span[1]/span',
                       '//*[@id="fadein"]/span/span/span[1]/input')
+        return self.airport_selected
 
     def set_destination_to(self, city, value):
         self.dropdown(city, value, '//*[@id="onereturn"]/div[2]/div[2]/div[2]/span/span[1]/span',
                       '//*[@id="fadein"]/span/span/span[1]/input')
+        return self.airport_selected
 
     def time(self, month_year, date):
         next = self.find.element_by_class("next")
@@ -104,18 +116,9 @@ class SearchFlight:
         time.sleep(5)
 
     def click_search_button(self):
-        self.search = self.find.element_by_id("flights-search")
+        self.search = self.find.element_by_xpath("//button[@id='flights-search']//*[name()='svg']")
         self.search.click()
 
-
-class SearchResult:
-    def __init__(self, driver):
-        self.find = Util.ElementsUtil(driver)
-        pass
-
-    def click_more_details(self):
-        pass
-
     def click_select_flight(self):
-        pass
-
+        self.select = self.find.element_by_xpath("//button[normalize-space()='Select Flight']")
+        self.select.click()

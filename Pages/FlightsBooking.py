@@ -5,63 +5,98 @@ from Base import Util
 
 class BookFlight:
     def __init__(self, driver):
+        self.selector = None
         self.find = Util.ElementsUtil(driver)
-        pass
 
-    def set_nationality(self, value):
-        pass
-
-    def set_current_country(self, value):
-        pass
+    def select_dropdown(self, value, selector):
+        view_payment = self.find.element_by_xpath("//h3[normalize-space()='Payment Methods']")
+        self.find.scroll_to(view_payment)
+        self.selector = self.find.element_by_name(selector)
+        self.selector.click()
+        self.find.dropdown(value, self.selector)
+        time.sleep(2)
 
     def set_title(self, value):
-        pass
+        self.select_dropdown(value, "title_1")
 
     def set_first_name(self, value):
-        pass
+        first_name = self.find.element_by_name("first_name_1")
+        first_name.click()
+        first_name.send_keys(value)
 
     def set_last_name(self, value):
-        pass
+        last_namen = self.find.element_by_name("last_name_1")
+        last_namen.click()
+        last_namen.send_keys(value)
 
     def set_nationality_traveller(self, value):
-        pass
+        self.select_dropdown(value, "nationality_1")
 
     def set_birth_date_month(self, value):
-        pass
+        self.select_dropdown(value, "dob_month_1")
 
     def set_birth_date(self, value):
-        pass
+        self.select_dropdown(value, "dob_day_1")
 
     def set_birth_year(self, value):
-        pass
+        self.select_dropdown(value, "dob_year_1")
 
     def set_nid(self, value):
-        pass
+        nid = self.find.element_by_name("passport_1")
+        nid.click()
+        nid.send_keys(value)
 
     def set_issuance_day_month(self, value):
-        pass
+        self.select_dropdown(value, "passport_issuance_month_1")
 
     def set_issuance_day(self, value):
-        pass
+        self.select_dropdown(value, "passport_issuance_day_1")
 
     def set_issuance_year(self, value):
-        pass
+        self.select_dropdown(value, "passport_issuance_year_1")
 
     def set_expiry_day_month(self, value):
-        pass
+        self.select_dropdown(value, "passport_month_expiry_1")
 
     def set_expiry_day(self, value):
-        pass
+        self.select_dropdown(value, "passport_day_expiry_1")
 
     def set_set_expiry_year(self, value):
-        pass
+        self.select_dropdown(value, "passport_year_expiry_1")
 
     def set_payment_method(self, value):
-        pass
+        payment_name = None
+        if value == "paypal":
+            payment_name = "gateway_paypal"
+        elif value == "bank":
+            payment_name = "gateway_bank_transfer"
+        elif value == "later":
+            payment_name = "gateway_pay_later"
+        elif value == "stripe":
+            payment_name = "gateway_stripe"
+        elif value == "wallet":
+            payment_name = "gateway_wallet_balance"
+        elif value == "duffle":
+            payment_name = "gateway_duffel"
+        payment = self.find.element_by_id(payment_name)
+        payment.click()
 
     def click_on_i_agree(self, value):
-        pass
+        agree_box = self.find.element_by_id("agreechb")
+        agree_box.click()
 
     def click_on_confirm_booking(self, value):
-        pass
- 
+        confirm_button = self.find.element_by_id("booking")
+        confirm_button.click()
+
+    def go_to_dashboard(self):
+        self.find.driver.get("https://phptravels.net/dashboard")
+
+    def go_my_bookings(self,value):
+        my_booking = self.find.element_by_xpath("(//a[normalize-space()='My Bookings'])[1]")
+        my_booking.click()
+        booking_id = self.find.element_by_xpath('//*[@id="DataTables_Table_0"]/tbody/tr/td[1]').text
+        if value == booking_id:
+            return booking_id
+        else :
+            return None

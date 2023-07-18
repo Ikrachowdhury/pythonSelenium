@@ -49,11 +49,12 @@ class ElementsUtil(WindowManager.WindowManager):
         return self.element
 
     def array_of_table(self, selector_type, selector):
+        element_array = []
         if selector_type == "class":
             self.elements = self.driver.find_elements(By.CLASS_NAME, selector)
             for element in self.elements:
-                self.element_array.append(element)
-        return self.element_array
+                element_array.append(element)
+        return element_array
 
     def execute_script(self, element):
         self.driver.execute_script("arguments[0].style = 'left: 22.0339%;';", element)

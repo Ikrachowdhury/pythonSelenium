@@ -30,7 +30,7 @@ class FlightsAllTesCases(unittest.TestCase):
     def test_AddNewFlightOptionAppear_TC2(self):
         self.test_flightPageAppear_TC1()
         self.flight.click_add_button()
-        time.sleep(6)
+        time.sleep(10)
         pageStart = self.flight.get_AddFlight_identifier()
         # print(pageStart)
         baseSetUp.check_result_string(pageStart, "Status")

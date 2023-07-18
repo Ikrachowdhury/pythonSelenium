@@ -134,7 +134,7 @@ class FlightView:
         self.Back = self.find.element_by_xpath("/html/body/main/section/div[1]/div/div[2]/a")
         self.Back.click()
         time.sleep(5)
-        return self.find.driver.tittle
+        return self.find.driver.selector
 
     def get_first_element_from_table(self):
         self.get_table()
