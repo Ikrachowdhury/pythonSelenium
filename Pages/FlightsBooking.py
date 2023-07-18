@@ -5,12 +5,19 @@ from Base import Util
 
 class BookFlight:
     def __init__(self, driver):
+        self.Flight = None
+        self.booking_number = None
         self.selector = None
         self.find = Util.ElementsUtil(driver)
+
+    def goto_flights(self):
+        self.Flight = self.find.element_by_xpath("//a[normalize-space()='Flights']")
+        self.Flight.click()
 
     def select_dropdown(self, value, selector):
         view_payment = self.find.element_by_xpath("//h3[normalize-space()='Payment Methods']")
         self.find.scroll_to(view_payment)
+        time.sleep(5)
         self.selector = self.find.element_by_name(selector)
         self.selector.click()
         self.find.dropdown(value, self.selector)
@@ -85,18 +92,32 @@ class BookFlight:
         agree_box = self.find.element_by_id("agreechb")
         agree_box.click()
 
-    def click_on_confirm_booking(self, value):
+    def click_on_confirm_booking(self):
         confirm_button = self.find.element_by_id("booking")
         confirm_button.click()
 
     def go_to_dashboard(self):
         self.find.driver.get("https://phptravels.net/dashboard")
 
-    def go_my_bookings(self,value):
+    def go_my_bookings(self, value):
         my_booking = self.find.element_by_xpath("(//a[normalize-space()='My Bookings'])[1]")
         my_booking.click()
         booking_id = self.find.element_by_xpath('//*[@id="DataTables_Table_0"]/tbody/tr/td[1]').text
         if value == booking_id:
             return booking_id
-        else :
+        else:
             return None
+
+    def get_booking_number(self):
+        self.booking_number = self.find.element_by_xpath("//div[3]//div[1]//h1[1]//strong[1]")
+        return self.booking_number
+
+    def click_featured_flight(self, value):
+        feature_all = self.find.array_of_table("class", "responsive colum")
+        length = len(feature_all)
+        for i in range(length):
+            if i == value:
+                element = feature_all[i]
+                element.click()
+
+

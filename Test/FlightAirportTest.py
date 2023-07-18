@@ -37,7 +37,7 @@ class FlightAirportTesCases(unittest.TestCase):
 
     def test_DeleteButton(self):
         self.test_FightAirportPageAppear()
-        self.flightAirPortView.click_delete_button(0,"yes")
+        self.flightAirPortView.click_delete_button(0, "yes")
         time.sleep(3)
 
     def test_StatusChange(self):
@@ -84,21 +84,39 @@ class FlightAirportTesCases(unittest.TestCase):
 
     # *********************************************************** Add Airport Test Cases ***************************
 
-    def AirportValues(self):
+    def AirportValues_1(self):
         self.test_AddNewAirportPageAppear()
         self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
         self.flightAirPortAdd.set_status("Enabled")
-        # self.flightAirPortAdd.set_code("CTG_1")
-        # self.flightAirPortAdd.set_airport("Ctg Airport")
-        # self.flightAirPortAdd.set_city("Chattogram")
+        self.flightAirPortAdd.set_code("CTG_1")
+        self.flightAirPortAdd.set_airport("Ctg Airport")
+        self.flightAirPortAdd.set_city("Chattogram")
         self.flightAirPortAdd.set_country("Bangladesh")
         #
+        # self.flightAirPortAdd.set_code("DHK-1")
+        # self.flightAirPortAdd.set_airport("Dhaka Airport")
+        # self.flightAirPortAdd.set_city("Dhaka")
+
+    def AirportValues_2(self):
+        self.test_AddNewAirportPageAppear()
+        self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
+        self.flightAirPortAdd.set_status("Enabled")
         self.flightAirPortAdd.set_code("DHK-1")
         self.flightAirPortAdd.set_airport("Dhaka Airport")
         self.flightAirPortAdd.set_city("Dhaka")
+        self.flightAirPortAdd.set_country("Bangladesh")
 
-    def test_AddANewAirportValid(self):
-        self.AirportValues()
+    def test_AddANewAirportValid_1(self):
+        self.AirportValues_1()
+        self.flightAirPortAdd.click_on_save()
+        # actualResult = self.flightAirPortView.get_first_element_from_table()
+        # print(actualResult)
+        # expectedResult = ('CTG_1', 'Ctg Airport', 'Chattogram')
+        # baseSetUp.check_result_string(actualResult,expectedResult)
+        time.sleep(4)
+
+    def test_AddANewAirportValid_2(self):
+        self.AirportValues_2()
         self.flightAirPortAdd.click_on_save()
         # actualResult = self.flightAirPortView.get_first_element_from_table()
         # print(actualResult)
