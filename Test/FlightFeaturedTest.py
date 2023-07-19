@@ -56,8 +56,10 @@ class FlightFeaturedTesCases(unittest.TestCase):
         time.sleep(3)
 
     def test_DeleteAll(self):
-        self.test_ClickCheckbox()
+        self.test_FightFeaturedPageAppear()
         self.flightFeaturedView.click_checkbox_all()
+        actualResult=self.flightFeaturedView.click_delete_all("yes")
+        baseSetUp.check_result_string(actualResult, 1)
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchFeaturedAppear(self):

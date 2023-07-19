@@ -15,10 +15,12 @@ class BookFlight:
         self.Flight.click()
 
     def select_dropdown(self, value, selector):
-        view_payment = self.find.element_by_xpath("//h3[normalize-space()='Payment Methods']")
-        self.find.scroll_to(view_payment)
-        time.sleep(5)
+        # view_payment = self.find.element_by_xpath("//h3[normalize-space()='Payment Methods']")
+        # self.find.scroll_to(view_payment)
+        # time.sleep(5)
         self.selector = self.find.element_by_name(selector)
+        self.find.scroll_to(self.selector)
+        time.sleep(5)
         self.selector.click()
         self.find.dropdown(value, self.selector)
         time.sleep(2)
@@ -86,10 +88,14 @@ class BookFlight:
         elif value == "duffle":
             payment_name = "gateway_duffel"
         payment = self.find.element_by_id(payment_name)
+        self.find.scroll_to(payment)
+        time.sleep(5)
         payment.click()
 
-    def click_on_i_agree(self, value):
+    def click_on_i_agree(self):
         agree_box = self.find.element_by_id("agreechb")
+        self.find.scroll_to(agree_box)
+        time.sleep(5)
         agree_box.click()
 
     def click_on_confirm_booking(self):
@@ -110,14 +116,25 @@ class BookFlight:
 
     def get_booking_number(self):
         self.booking_number = self.find.element_by_xpath("//div[3]//div[1]//h1[1]//strong[1]")
-        return self.booking_number
+        return self.booking_number.text
 
     def click_featured_flight(self, value):
-        feature_all = self.find.array_of_table("class", "responsive colum")
+
+        feature_all = self.find.array_of_table("class", "col-lg-6")
         length = len(feature_all)
         for i in range(length):
             if i == value:
                 element = feature_all[i]
+                self.find.scroll_to(element)
+                time.sleep(6)
                 element.click()
+                break
 
-
+    def click_on_select_flight(self, value):
+        flight_all = self.find.array_of_table("class", "mix")
+        element = flight_all[value]
+        time.sleep(5)
+        self.find.scroll_to(element)
+        time.sleep(5)
+        flight = self.find.get_table_element(flight_all, value, "btn-dark")
+        flight.click()

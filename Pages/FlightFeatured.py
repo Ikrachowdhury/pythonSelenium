@@ -57,7 +57,7 @@ class FlightFeaturedView:
     def click_checkbox_all(self):
 
         self.CheckboxAll = self.find.element_by_id("select_all")
-        self.Checkbox.click()
+        self.CheckboxAll.click()
         self.deleteAllBox = self.find.element_by_id("deleteAll")
         if self.deleteAllBox.is_displayed():
             return "deleteAll"
@@ -66,7 +66,12 @@ class FlightFeaturedView:
 
     def click_delete_all(self, value):
         self.deleteAllBox.click()
+        time.sleep(3)
         self.find.alert_box(value)
+        time.sleep(3)
+        self.get_table()
+        table = self.TableArray
+        return len(table)
 
     def click_search_button(self):
         self.find.scroll_bottom()

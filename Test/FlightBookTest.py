@@ -23,23 +23,28 @@ class FlightSearch(unittest.TestCase):
         self.booking.set_last_name("Chy")
         self.booking.set_nationality_traveller("Bangladesh")
         self.booking.set_nid("012345678901234")
+        self.booking.set_payment_method("paypal")
+        self.booking.click_on_i_agree()
 
     def test_BookWithValidInfo(self):
         self.search_flight.test_SearchFlightValid()
         self.set_value()
         self.booking.click_on_confirm_booking()
         time.sleep(5)
-        self.test_BookingCheck()
+        # self.test_BookingCheck()
 
     def test_FeaturedFlight(self):
         self.prev_booking_number = self.booking.get_booking_number()
         self.booking.goto_flights()
-        self.booking.click_featured_flight(1)
+        self.booking.click_featured_flight(0)
+        self.booking.click_on_select_flight(0)
         self.set_value()
         self.booking.click_on_confirm_booking()
+        time.sleep(10)
         self.booking.go_to_dashboard()
         actual_result = self.booking.get_booking_number()
-        baseSetUp.check_result_string(actual_result, self.prev_booking_number + 1)
+        expected_result = int(self.prev_booking_number)+1
+        baseSetUp.check_result_string(actual_result, str(expected_result))
 
     def test_BookingCheck(self):
         self.booking.go_to_dashboard()
