@@ -1,3 +1,4 @@
+import sys
 import time
 import unittest
 from Base import SetUp
@@ -115,10 +116,10 @@ class FlightAirportTesCases(unittest.TestCase):
     def test_AddANewAirportValid_1(self):
         self.AirportValues_1()
         self.flightAirPortAdd.click_on_save()
-        # actualResult = self.flightAirPortView.get_first_element_from_table()
-        # print(actualResult)
-        # expectedResult = ('CTG_1', 'Ctg Airport', 'Chattogram')
-        # baseSetUp.check_result_string(actualResult,expectedResult)
+        actualResult = self.flightAirPortView.get_first_element_from_table()
+        print(actualResult)
+        expectedResult = ('CTG_1', 'Ctg Airport', 'Chattogram')
+        baseSetUp.check_result_string(actualResult,expectedResult)
         time.sleep(4)
 
     def test_AddANewAirportValid_2(self):
@@ -141,7 +142,7 @@ class FlightAirportTesCases(unittest.TestCase):
         self.flightAirPortAdd.click_on_save()
 
     def test_AddSameAirportTwice(self):
-        self.AirportValues()
+        self.AirportValues_1()
         self.flightAirPortAdd.click_on_save()
 
         actualResult = self.flightAirPortAdd.get_text_popup()
@@ -149,7 +150,7 @@ class FlightAirportTesCases(unittest.TestCase):
         time.sleep(3)
 
     def test_AddAirportInvalid(self):
-        self.AirportValues()
+        self.AirportValues_2()
         self.flightAirPortAdd.set_airport("kjwhiu")
         self.flightAirPortAdd.set_city("123")
         self.flightAirPortAdd.click_on_save()
@@ -157,7 +158,6 @@ class FlightAirportTesCases(unittest.TestCase):
         actualResult = self.flightAirPortAdd.get_text_popup()
         baseSetUp.check_result_string(actualResult, "Invalid input")
         time.sleep(3)
-
     @classmethod
     def tearDownClass(cls):
         SetUp.driver.close()
