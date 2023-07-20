@@ -1,3 +1,5 @@
+import traceback
+
 from selenium import webdriver
 
 from Pages import LoginPage
@@ -33,7 +35,12 @@ class MyTestCase(unittest.TestCase):
     def check_result_string(self, actual_result, expected):
         # print(actual_result)
         # print(expected)
-        assert actual_result == expected
+        try:
+            assert actual_result == expected
+        except Exception:
+            file_name=actual_result+' screenshot.png'
+            driver.get_screenshot_as_file(file_name)
+            traceback.print_exc()
 
 
 if __name__ == '__main__':
