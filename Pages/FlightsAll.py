@@ -28,6 +28,15 @@ class FlightView:
         self.GoButton = None
         self.Back = None
 
+    def click_module_flight_status(self):
+        module_status = self.find.element_by_xpath(
+            "//tr[@class='modules_sort modules_flights type_flights']//input[@id='checkedbox']")
+        status = module_status.get_attribute('data-status')
+        # print(status)
+        if status == "0":
+            module_status.click()
+            self.find.refresh()
+
     def click_add_button(self):
         self.AddButton = self.find.element_by_xpath("html/body/main/section/div[2]/div/div/div[1]/div[1]")
         self.AddButton.click()

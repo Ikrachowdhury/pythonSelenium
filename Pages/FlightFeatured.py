@@ -21,6 +21,15 @@ class FlightFeaturedView:
         self.ResetButton = None
         self.PopUpBox = None
 
+    def click_module_flight_status(self):
+        module_status = self.find.element_by_xpath(
+            "//tr[@class='modules_sort modules_flights type_flights']//input[@id='checkedbox']")
+        status = module_status.get_attribute('data-status')
+        # print(status)
+        if status == "0":
+            module_status.click()
+            self.find.refresh()
+
     def get_table(self):
         self.TableArray = self.find.array_of_table("class", "xcrud-row")
 

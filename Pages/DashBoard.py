@@ -10,19 +10,24 @@ class DashBoard:
         self.Flight = None
         self.find = Util.ElementsUtil(driver)
         self.Modules = self.find.element_by_xpath('/html/body/main/header/ul/li[3]/a')
-        self.Flights = self.find.element_by_css('[data-bs-target="#flights-collapse"]')
+        self.Flights = None
         self.Booking = self.find.element_by_css('[data-bs-target="#bookings-collapse"]')
 
     def goto_Modules(self):
         self.Modules.click()
 
     def goto_all_flights(self):
+        self.Flights = self.find.element_by_xpath("//button[normalize-space()='Flights']")
         self.Flights.click()
-        self.Flight = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[1]/a')
-        self.FlightAirport = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[2]/a')
-        self.FlightAirline = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[3]/a')
-        self.FlightFeatured = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[4]/a')
-        self.FlightSuggestion = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[5]/a')
+        if self.Flights.is_displayed():
+            self.Flight = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[1]/a')
+            self.FlightAirport = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[2]/a')
+            self.FlightAirline = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[3]/a')
+            self.FlightFeatured = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[4]/a')
+            self.FlightSuggestion = self.find.element_by_xpath('//*[@id="flights-collapse"]/ul/li[5]/a')
+            return "ok"
+        else:
+            return "no"
 
     def goto_flights(self):
         self.Flight.click()

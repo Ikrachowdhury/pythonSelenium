@@ -19,7 +19,13 @@ class FlightAirportTesCases(unittest.TestCase):
         self.flightAirPortAdd = None  # FlightAirPort.FlightAirPortView(SetUp.driver)
 
     # *************************************View Section test Cases***********************************************************************************
+    def test_ModuleStatus(self):
+        self.dashboard.goto_Modules()
+        self.flightAirPortView.click_module_flight_status()
+        time.sleep(2)
+
     def test_FightAirportPageAppear(self):
+        self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_airport_flight()
         time.sleep(3)

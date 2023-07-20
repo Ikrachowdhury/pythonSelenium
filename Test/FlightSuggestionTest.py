@@ -19,7 +19,13 @@ class FlightFeaturedTesCases(unittest.TestCase):
         self.FlightSuggestionAdd = None
 
     # *************************************View Section test Cases***********************************************************************************
+    def test_ModuleStatus(self):
+        self.dashboard.goto_Modules()
+        self.FlightSuggestionView.click_module_flight_status()
+        time.sleep(2)
+
     def test_FlightSuggestionPageAppear(self):
+        self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_suggestion_flight()
         pageTittle = SetUp.driver.title

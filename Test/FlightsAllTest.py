@@ -20,7 +20,13 @@ class FlightsAllTesCases(unittest.TestCase):
         self.flightEdit = None
 
     # *************************************View Section test Cases***********************************************************************************
+    def test_ModuleStatus(self):
+        self.dashboard.goto_Modules()
+        self.flight.click_module_flight_status()
+        time.sleep(2)
+
     def test_flightPageAppear_TC1(self):
+        self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_flights()
         pageTittle = SetUp.driver.title

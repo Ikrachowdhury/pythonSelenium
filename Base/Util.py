@@ -110,3 +110,6 @@ class ElementsUtil(WindowManager.WindowManager):
             alert.accept()
         else:
             alert.dismiss()
+
+    def refresh(self):
+        self.driver.refresh()

@@ -19,7 +19,13 @@ class FlightAirlineTesCases(unittest.TestCase):
         self.flightAirlineAdd = None
 
     # *************************************View Section test Cases***********************************************************************************
+    def test_ModuleStatus(self):
+        self.dashboard.goto_Modules()
+        self.flightAirlineView.click_module_flight_status()
+        time.sleep(2)
+
     def test_FightAirlinePageAppear(self):
+        self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_airline_flight()
         time.sleep(3)

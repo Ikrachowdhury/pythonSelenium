@@ -19,7 +19,13 @@ class FlightFeaturedTesCases(unittest.TestCase):
         self.flightFeaturedAdd = None  # FlightAirPort.FlightAirPortView(SetUp.driver)
 
     # *************************************View Section test Cases***********************************************************************************
+    def test_ModuleStatus(self):
+        self.dashboard.goto_Modules()
+        self.flightFeaturedView.click_module_flight_status()
+        time.sleep(2)
+
     def test_FightFeaturedPageAppear(self):
+        self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_featured_flight()
         time.sleep(3)
@@ -58,7 +64,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
     def test_DeleteAll(self):
         self.test_FightFeaturedPageAppear()
         self.flightFeaturedView.click_checkbox_all()
-        actualResult=self.flightFeaturedView.click_delete_all("yes")
+        actualResult = self.flightFeaturedView.click_delete_all("yes")
         baseSetUp.check_result_string(actualResult, 1)
 
     # **************************************************Flight search section Test Cases*************************
