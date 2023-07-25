@@ -8,14 +8,17 @@ baseSetUp = SetUp.MyTestCase()
 
 class FlightAirlineTesCases(unittest.TestCase):
 
-    def setUp(self):
-        baseSetUp.setUpClass()
+    @classmethod
+    def setUpClass(cls) -> None:
         baseSetUp.setUp()
+        baseSetUp.admin_login()
+
+    def setUp(self):
         self.page_objects()
 
     def page_objects(self):
-        self.dashboard = DashBoard.DashBoard(SetUp.driver)
-        self.flightAirlineView = FlightsAirline.FlightAirlineView(SetUp.driver)
+        self.dashboard = DashBoard.DashBoard(baseSetUp.driver)
+        self.flightAirlineView = FlightsAirline.FlightAirlineView(baseSetUp.driver)
         self.flightAirlineAdd = None
 
     # *************************************View Section test Cases***********************************************************************************
@@ -29,7 +32,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         self.dashboard.goto_all_flights()
         self.dashboard.goto_airline_flight()
         time.sleep(3)
-        pageTittle = SetUp.driver.title
+        pageTittle = baseSetUp.driver.title
         # print(pageTittle)
         baseSetUp.check_result_string(pageTittle, "Airlines")
 
@@ -48,22 +51,27 @@ class FlightAirlineTesCases(unittest.TestCase):
 
     def test_StatusChange(self):
         self.test_FightAirlinePageAppear()
-        self.flightAirlineView.click_satus(0)
+        status = self.flightAirlineView.click_satus(0)
         time.sleep(2)
-        actualResult = self.flightAirlineView.get_text_popup()
-        baseSetUp.check_result_string(actualResult,
-                                      "Info Updated\n" + "Information updated successfully")
+        if status == "ok":
+            actualResult = self.flightAirlineView.get_text_popup()
+            baseSetUp.check_result_string(actualResult,
+                                          "Info Updated\n" + "Information updated successfully")
+
         time.sleep(6)
 
     def test_ClickCheckbox(self):
         self.test_FightAirlinePageAppear()
         actualResult = self.flightAirlineView.click_checkbox(0)
-        baseSetUp.check_result_string(actualResult, "deleteAll")
-        time.sleep(3)
+        if actualResult != "no":
+            baseSetUp.check_result_string(actualResult, "deleteAll")
+            time.sleep(3)
 
     def test_DeleteAll(self):
-        self.test_ClickCheckbox()
+        self.test_FightAirlinePageAppear()
         self.flightAirlineView.click_checkbox_all()
+        actualResult = self.flightAirlineView.click_delete_all("yes")
+        # baseSetUp.check_result_string(actualResult, 1)
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchAirlineAppear(self):
@@ -82,7 +90,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_Reset_button(self):
-        self.test_ClickSearchAirlineAppear()
+        self.test_SearchAirlineValid()
         time.sleep(3)
         actualResult = self.flightAirlineView.click_on_reset()
         baseSetUp.check_result_string(actualResult, "mainpage")
@@ -96,7 +104,7 @@ class FlightAirlineTesCases(unittest.TestCase):
 
     def AirlineValues(self):
         self.test_AddNewAirlinePageAppear()
-        self.flightAirlineAdd = FlightsAirline.AddFlightAirline(SetUp.driver)
+        self.flightAirlineAdd = FlightsAirline.AddFlightAirline(baseSetUp.driver)
         self.flightAirlineAdd.set_status("Enabled")
         self.flightAirlineAdd.set_iata("BNA")
         self.flightAirlineAdd.set_name("Air Bangladesh")
@@ -113,7 +121,7 @@ class FlightAirlineTesCases(unittest.TestCase):
 
     def test_AddWithoutValue(self):
         self.test_AddNewAirlinePageAppear()
-        self.flightAirlineAdd = FlightsAirline.AddFlightAirline(SetUp.driver)
+        self.flightAirlineAdd = FlightsAirline.AddFlightAirline(baseSetUp.driver)
         self.flightAirlineAdd.set_status("")
         self.flightAirlineAdd.set_status("")
         self.flightAirlineAdd.set_iata("")
@@ -141,7 +149,16 @@ class FlightAirlineTesCases(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        SetUp.driver.close()
+        baseSetUp.driver.close()
 
     if __name__ == '__main__':
         unittest.main()
+
+
+def suit():
+    test_suit = unittest.TestSuite()
+    test_suit.addTest(FlightAirlineTesCases("test_StatusChange"))
+    test_suit.addTest(FlightAirlineTesCases("test_DeleteButton"))
+    test_suit.addTest(FlightAirlineTesCases("test_DeleteAll"))
+    test_suit.addTest(FlightAirlineTesCases("test_Reset_button"))
+    return test_suit

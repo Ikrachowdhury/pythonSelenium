@@ -8,14 +8,17 @@ baseSetUp = SetUp.MyTestCase()
 
 
 class FlightSearch(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        baseSetUp.setUp()
+        baseSetUp.admin_login()
+
     def setUp(self):
-        baseSetUp.setUpClass()
-        baseSetUp.agent_login()
         self.page_objects()
 
     def page_objects(self):
         self.search_flight = SearchFlightTest.FlightSearch()
-        self.booking = FlightsBooking.BookFlight(SetUp.driver)
+        self.booking = FlightsBooking.BookFlight(baseSetUp.driver)
 
     def set_value(self):
         self.booking.set_title("Miss")

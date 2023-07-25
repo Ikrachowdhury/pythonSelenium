@@ -7,17 +7,20 @@ baseSetUp = SetUp.MyTestCase()
 
 
 class FlightValueAdd(unittest.TestCase):
-    def setUp(self):
-        baseSetUp.setUpClass()
+    @classmethod
+    def setUpClass(cls) -> None:
         baseSetUp.setUp()
+        baseSetUp.admin_login()
+
+    def setUp(self):
         self.page_objects()
 
     def page_objects(self):
-        self.dashboard = DashBoard.DashBoard(SetUp.driver)
-        self.flight = FlightsAll.FlightView(SetUp.driver)
-        self.flightAirPortView = FlightAirPort.FlightAirPortView(SetUp.driver)
-        self.flightAirlineView = FlightsAirline.FlightAirlineView(SetUp.driver)
-        self.flightFeaturedView = FlightFeatured.FlightFeaturedView(SetUp.driver)
+        self.dashboard = DashBoard.DashBoard(baseSetUp.driver)
+        self.flight = FlightsAll.FlightView(baseSetUp.driver)
+        self.flightAirPortView = FlightAirPort.FlightAirPortView(baseSetUp.driver)
+        self.flightAirlineView = FlightsAirline.FlightAirlineView(baseSetUp.driver)
+        self.flightFeaturedView = FlightFeatured.FlightFeaturedView(baseSetUp.driver)
 
     def test_ModuleStatus(self):
         self.dashboard.goto_Modules()
@@ -45,7 +48,7 @@ class FlightValueAdd(unittest.TestCase):
         self.flightAirlineAdd.set_country("Bangladesh")
 
     def featured_values(self):
-        self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(SetUp.driver)
+        self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(baseSetUp.driver)
         self.flightFeaturedAdd.set_status("Enabled")
         self.flightFeaturedAdd.set_airline("135 Airways")
         self.flightFeaturedAdd.set_from_airport("CTG_1")
@@ -76,19 +79,19 @@ class FlightValueAdd(unittest.TestCase):
         self.dashboard.goto_all_flights()
 
     def test_add_airport(self):
-        # self.test_ModuleStatus()
-        self.dashboard.goto_Modules()
+        self.test_ModuleStatus()
+        # self.dashboard.goto_Modules()
         self.dashboard.goto_all_flights()
 
         # Airports Adding
         self.dashboard.goto_airport_flight()
         self.flightAirPortView.click_Add_button()
-        self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
+        self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(baseSetUp.driver)
         self.airport_value_1()
         self.flightAirPortAdd.click_on_save()
         time.sleep(3)
         self.flightAirPortView.click_Add_button()
-        self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(SetUp.driver)
+        self.flightAirPortAdd = FlightAirPort.AddFlightAirPort(baseSetUp.driver)
         self.airport_value_2()
         self.flightAirPortAdd.click_on_save()
         time.sleep(3)
@@ -97,7 +100,7 @@ class FlightValueAdd(unittest.TestCase):
         self.flight_go()
         self.dashboard.goto_airline_flight()
         self.flightAirlineView.click_Add_button()
-        self.flightAirlineAdd = FlightsAirline.AddFlightAirline(SetUp.driver)
+        self.flightAirlineAdd = FlightsAirline.AddFlightAirline(baseSetUp.driver)
         self.airline_values()
         self.flightAirlineAdd.click_on_save()
         time.sleep(5)
@@ -106,7 +109,7 @@ class FlightValueAdd(unittest.TestCase):
         self.flight_go()
         self.dashboard.goto_featured_flight()
         self.flightFeaturedView.click_Add_button()
-        self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(SetUp.driver)
+        self.flightFeaturedAdd = FlightFeatured.AddFlightFeatured(baseSetUp.driver)
         self.featured_values()
         self.flightFeaturedAdd.click_on_save()
         time.sleep(3)
@@ -114,15 +117,20 @@ class FlightValueAdd(unittest.TestCase):
         self.flight_go()
         self.dashboard.goto_flights()
         self.flight.click_add_button()
-        self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
+        self.flightAdd = FlightsAll.FlightAdd(baseSetUp.driver)
         self.flight_values()
         self.flightAdd.click_on_save()
         time.sleep(3)
 
-
     @classmethod
     def tearDownClass(cls):
-        SetUp.driver.close()
+        baseSetUp.driver.close()
 
     if __name__ == '__main__':
         unittest.main()
+
+
+def suit():
+    test_suit = unittest.TestSuite()
+    test_suit.addTest(FlightValueAdd("test_add_airport"))
+    return test_suit

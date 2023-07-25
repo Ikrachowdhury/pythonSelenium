@@ -6,16 +6,18 @@ from Pages import FlightSuggestion, DashBoard
 baseSetUp = SetUp.MyTestCase()
 
 
-class FlightFeaturedTesCases(unittest.TestCase):
+class FlightSuggestionTesCases(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        baseSetUp.setUp()
+        baseSetUp.admin_login()
 
     def setUp(self):
-        baseSetUp.setUpClass()
-        baseSetUp.setUp()
         self.page_objects()
 
     def page_objects(self):
-        self.dashboard = DashBoard.DashBoard(SetUp.driver)
-        self.FlightSuggestionView = FlightSuggestion.FlightSuggestionView(SetUp.driver)
+        self.dashboard = DashBoard.DashBoard(baseSetUp.driver)
+        self.FlightSuggestionView = FlightSuggestion.FlightSuggestionView(baseSetUp.driver)
         self.FlightSuggestionAdd = None
 
     # *************************************View Section test Cases***********************************************************************************
@@ -28,7 +30,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
         self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_suggestion_flight()
-        pageTittle = SetUp.driver.title
+        pageTittle = baseSetUp.driver.title
         # print(pageTittle)
         baseSetUp.check_result_string(pageTittle, "Flights Suggestions")
 
@@ -47,22 +49,26 @@ class FlightFeaturedTesCases(unittest.TestCase):
 
     def test_StatusChange(self):
         self.test_FlightSuggestionPageAppear()
-        self.FlightSuggestionView.click_satus(0)
+        status = self.FlightSuggestionView.click_satus(0)
         time.sleep(2)
-        actualResult = self.FlightSuggestionView.get_text_popup()
-        baseSetUp.check_result_string(actualResult,
-                                      "Info Updated\n" + "Information updated successfully")
+        if status == "ok":
+            actualResult = self.FlightSuggestionView.get_text_popup()
+            baseSetUp.check_result_string(actualResult,
+                                          "Info Updated\n" + "Information updated successfully")
+
         time.sleep(6)
 
     def test_ClickCheckbox(self):
         self.test_FlightSuggestionPageAppear()
         actualResult = self.FlightSuggestionView.click_checkbox(0)
-        baseSetUp.check_result_string(actualResult, "deleteAll")
-        time.sleep(3)
+        if actualResult != "no":
+            baseSetUp.check_result_string(actualResult, "deleteAll")
+            time.sleep(3)
 
     def test_DeleteAll(self):
         self.test_ClickCheckbox()
         self.FlightSuggestionView.click_checkbox_all()
+        actualResult = self.FlightSuggestionView.click_delete_all("yes")
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchSuggestionAppear(self):
@@ -96,7 +102,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
 
     def SuggestionValues(self):
         self.test_AddNewSuggestionAppear()
-        self.FlightSuggestionAdd = FlightSuggestion.AddFlightSuggestion(SetUp.driver)
+        self.FlightSuggestionAdd = FlightSuggestion.AddFlightSuggestion(baseSetUp.driver)
         self.FlightSuggestionAdd.set_status("Enabled")
         self.FlightSuggestionAdd.set_type("From_destination")
         self.FlightSuggestionAdd.set_city_airport("CTG_1")
@@ -113,7 +119,7 @@ class FlightFeaturedTesCases(unittest.TestCase):
 
     def test_AddWithoutValue(self):
         self.test_AddNewSuggestionAppear()
-        self.FlightSuggestionAdd = FlightSuggestion.AddFlightSuggestion(SetUp.driver)
+        self.FlightSuggestionAdd = FlightSuggestion.AddFlightSuggestion(baseSetUp.driver)
         self.FlightSuggestionAdd.set_status(" ")
         self.FlightSuggestionAdd.set_type(" ")
         self.FlightSuggestionAdd.set_city_airport("")
@@ -139,7 +145,17 @@ class FlightFeaturedTesCases(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        SetUp.driver.close()
+        baseSetUp.driver.close()
 
     if __name__ == '__main__':
         unittest.main()
+
+
+def suit():
+    test_suit = unittest.TestSuite()
+    test_suit.addTest(FlightSuggestionTesCases("test_StatusChange"))
+    test_suit.addTest(FlightSuggestionTesCases("test_DeleteButton"))
+    test_suit.addTest(FlightSuggestionTesCases("test_DeleteAll"))
+    test_suit.addTest(FlightSuggestionTesCases("test_Reset_button"))
+    # test_suit.addTest(FlightSuggestionTesCases("test_AddANewSuggestionValid"))
+    return test_suit

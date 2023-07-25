@@ -6,27 +6,25 @@ from Pages import LoginPage
 import time
 import unittest
 
-driver = webdriver.Chrome()
-
 
 class MyTestCase(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        driver.maximize_window()
-        driver.implicitly_wait(500)
-
     def setUp(self):
-        driver.get("https://phptravels.net/admin/login.php")
-        log = LoginPage.Login(driver)
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.driver.implicitly_wait(500)
+
+    def admin_login(self):
+        self.driver.get("https://phptravels.net/admin/login.php")
+        log = LoginPage.Login(self.driver)
         log.set_password("demoadmin")
         log.set_mail("admin@phptravels.com")
         log.click_submit_button()
         time.sleep(10)
 
     def agent_login(self):
-        driver.get("https://phptravels.net/login")
-        log = LoginPage.Login(driver)
+        self.driver.get("https://phptravels.net/login")
+        log = LoginPage.Login(self.driver)
         log.set_password("demoagent")
         log.set_mail("agent@phptravels.com")
         log.click_login_button()
@@ -38,8 +36,8 @@ class MyTestCase(unittest.TestCase):
         try:
             assert actual_result == expected
         except Exception:
-            file_name=actual_result+' screenshot.png'
-            driver.get_screenshot_as_file(file_name)
+            file_name = 'screenshot.png'
+            self.driver.get_screenshot_as_file(file_name)
             traceback.print_exc()
 
 

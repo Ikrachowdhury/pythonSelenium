@@ -10,20 +10,20 @@ class FlightSearch(unittest.TestCase):
 
     def __init__(self):
         super().__init__()
-        self.search = SearchFlight.SearchFlight(SetUp.driver)
+        self.search = SearchFlight.SearchFlight(baseSetUp.driver)
 
     def setUp(self):
-        baseSetUp.setUpClass()
+        baseSetUp.setUp()
         baseSetUp.agent_login()
         self.page_objects()
 
     def page_objects(self):
-        self.search = SearchFlight.SearchFlight(SetUp.driver)
+        self.search = SearchFlight.SearchFlight(baseSetUp.driver)
 
     def test_FlightPageAppear(self):
         self.search.goto_flights()
         time.sleep(3)
-        pageTittle = SetUp.driver.title
+        pageTittle = baseSetUp.driver.title
         baseSetUp.check_result_string(pageTittle, "Search for best Flights")
 
     def test_AirportSelection(self):
@@ -56,7 +56,7 @@ class FlightSearch(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        SetUp.driver.close()
+        baseSetUp.driver.close()
 
     if __name__ == '__main__':
         unittest.main()

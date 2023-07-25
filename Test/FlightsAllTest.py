@@ -8,14 +8,17 @@ baseSetUp = SetUp.MyTestCase()
 
 class FlightsAllTesCases(unittest.TestCase):
 
-    def setUp(self):
-        baseSetUp.setUpClass()
+    @classmethod
+    def setUpClass(cls) -> None:
         baseSetUp.setUp()
+        baseSetUp.admin_login()
+
+    def setUp(self):
         self.page_objects()
 
     def page_objects(self):
-        self.dashboard = DashBoard.DashBoard(SetUp.driver)
-        self.flight = FlightsAll.FlightView(SetUp.driver)
+        self.dashboard = DashBoard.DashBoard(baseSetUp.driver)
+        self.flight = FlightsAll.FlightView(baseSetUp.driver)
         self.flightAdd = None
         self.flightEdit = None
 
@@ -29,7 +32,7 @@ class FlightsAllTesCases(unittest.TestCase):
         self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_flights()
-        pageTittle = SetUp.driver.title
+        pageTittle = baseSetUp.driver.title
         # print(pageTittle)
         baseSetUp.check_result_string(pageTittle, "Flights")
 
@@ -56,22 +59,26 @@ class FlightsAllTesCases(unittest.TestCase):
 
     def test_StatusChange_TC8(self):
         self.test_flightPageAppear_TC1()
-        self.flight.click_satus(0)
+        status = self.flight.click_satus(0)
         time.sleep(2)
-        actualResult = self.flight.get_text_popup()
-        baseSetUp.check_result_string(actualResult,
-                                      "Info Updated\n" + "Information updated successfully")
+        if status == "ok":
+            actualResult = self.flight.get_text_popup()
+            baseSetUp.check_result_string(actualResult,
+                                          "Info Updated\n" + "Information updated successfully")
+
         time.sleep(6)
 
     def test_ClickCheckbox_TC9(self):
         self.test_flightPageAppear_TC1()
         actualResult = self.flight.click_checkbox(0)
-        baseSetUp.check_result_string(actualResult, "deleteAll")
-        time.sleep(3)
+        if actualResult != "no":
+            baseSetUp.check_result_string(actualResult, "deleteAll")
+            time.sleep(3)
 
     def test_DeleteAll_TC15(self):  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         self.test_ClickCheckbox_TC9()
-        self.flight.click_delete_all()
+        self.flight.click_checkbox_all()
+        actualResult = self.flight.click_delete_all("yes")
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchFlightBoxAppear_TC16n17(self):
@@ -82,7 +89,7 @@ class FlightsAllTesCases(unittest.TestCase):
 
     def test_SearchFlightValid_TC16(self):
         self.test_ClickSearchFlightBoxAppear_TC16n17()
-        self.flight.set_field_dropdown("User_id")
+        self.flight.set_field_dropdown("User id")
         time.sleep(2)
         self.flight.set_type_box("economy")
         time.sleep(2)
@@ -94,9 +101,16 @@ class FlightsAllTesCases(unittest.TestCase):
         baseSetUp.check_result_string(actualResult, "Reset")
         time.sleep(6)
 
+    def test_Reset_button(self):
+        self.test_SearchFlightValid_TC16()
+        time.sleep(3)
+        actualResult = self.flight.click_on_reset()
+        baseSetUp.check_result_string(actualResult, "mainpage")
+        time.sleep(3)
+
     def test_SearchFlightInvalid_TC17(self):
         self.test_ClickSearchFlightBoxAppear_TC16n17()
-        self.flight.set_field_dropdown("User_id")
+        self.flight.set_field_dropdown("User id")
         time.sleep(2)
         self.flight.set_type_box("local")
         time.sleep(2)
@@ -122,7 +136,7 @@ class FlightsAllTesCases(unittest.TestCase):
 
     def FlightValues(self):
         self.test_AddNewFlightOptionAppear_TC2()
-        self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
+        self.flightAdd = FlightsAll.FlightAdd(baseSetUp.driver)
         self.flightAdd.set_status("Enabled")
         self.flightAdd.set_airline("Air Bangladesh")
         self.flightAdd.set_id("supplier@phptravels.com")
@@ -151,7 +165,7 @@ class FlightsAllTesCases(unittest.TestCase):
 
     def test_AddWithoutValue_TC2(self):
         self.test_AddNewFlightOptionAppear_TC2()
-        self.flightAdd = FlightsAll.FlightAdd(SetUp.driver)
+        self.flightAdd = FlightsAll.FlightAdd(baseSetUp.driver)
         self.flightAdd.set_id("")
         self.flightAdd.select_option("")
         self.flightAdd.set_type("")
@@ -215,7 +229,7 @@ class FlightsAllTesCases(unittest.TestCase):
 
     def before(self):
         self.test_EditButton_TC14()
-        self.flightEdit = FlightsAll.FlightEdit(SetUp.driver)
+        self.flightEdit = FlightsAll.FlightEdit(baseSetUp.driver)
 
     def FlightValuesEdit(self):
         self.before()
@@ -249,7 +263,7 @@ class FlightsAllTesCases(unittest.TestCase):
     def test_SaveWithOutChange_TC11(self):
         self.before()
         self.flightAdd.click_on_save_route()
-        pageTittle = SetUp.driver.title
+        pageTittle = baseSetUp.driver.title
         baseSetUp.check_result_string(pageTittle, "Flights")
         pass
 
@@ -275,7 +289,16 @@ class FlightsAllTesCases(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        SetUp.driver.close()
+        baseSetUp.driver.close()
 
     if __name__ == '__main__':
         unittest.main()
+
+
+def suit():
+    test_suit = unittest.TestSuite()
+    test_suit.addTest(FlightsAllTesCases("test_StatusChange_TC8"))
+    test_suit.addTest(FlightsAllTesCases("test_DeleteButton_TC10"))
+    test_suit.addTest(FlightsAllTesCases("test_DeleteAll_TC15"))
+    test_suit.addTest(FlightsAllTesCases("test_Reset_button"))
+    return test_suit

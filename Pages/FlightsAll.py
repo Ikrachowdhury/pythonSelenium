@@ -8,6 +8,8 @@ class FlightView:
 
     def __init__(self, driver):
 
+        self.ResetButton = None
+        self.CheckboxAll = None
         self.find = Util.ElementsUtil(driver)
         self.edit_no = None
         self.TableArray = None
@@ -53,6 +55,14 @@ class FlightView:
 
     def get_table(self):
         self.TableArray = self.find.array_of_table("class", "xcrud-row")
+        if len(self.TableArray) == 1:
+            text = self.TableArray[0].text
+            if text != "Entries not found.":
+                return "ok"
+            else:
+                return "no"
+        else:
+            return "ok"
 
     def click_edit_button(self, buttonNumber):
         self.get_table()
@@ -65,34 +75,62 @@ class FlightView:
         print(pageStart)
         return pageStart
 
-    def click_delete_button(self, buttonNumber, value):
-        self.get_table()
-        self.DeleteButton = self.find.get_table_element(self.TableArray, buttonNumber, 'xcrud-red')
-        self.DeleteButton.click()
-        time.sleep(3)
-        self.find.alert_box(value)
-
     def click_satus(self, buttonNumber):
-        self.get_table()
-        self.Status = self.find.get_table_element(self.TableArray, buttonNumber, 'updated_status')
-        self.Status.click()
+        entry = self.get_table()
+        if entry == "ok":
+            self.Status = self.find.get_table_element(self.TableArray, buttonNumber, 'updated_status')
+            self.Status.click()
+            return "ok"
+        else:
+            return "no"
+
+    def click_delete_button(self, buttonNumber, value):
+        entry = self.get_table()
+        if entry == "ok":
+            self.DeleteButton = self.find.get_table_element(self.TableArray, buttonNumber, 'xcrud-red')
+            self.DeleteButton.click()
+            time.sleep(3)
+            self.find.alert_box(value)
+            return "ok"
+        else:
+            return "no"
 
     def click_checkbox(self, buttonNumber):
-        self.get_table()
-        self.Checkbox = self.find.get_table_element(self.TableArray, buttonNumber, 'checkboxcls')
-        self.Checkbox.click()
+        entry = self.get_table()
+        if entry == "ok":
+            self.Checkbox = self.find.get_table_element(self.TableArray, buttonNumber, 'checkboxcls')
+            self.Checkbox.click()
+            self.deleteAllBox = self.find.element_by_id("deleteAll")
+            if self.deleteAllBox.is_displayed():
+                return "deleteAll"
+            else:
+                return "error"
+        else:
+            return "no"
+
+    def click_checkbox_all(self):
+
+        self.CheckboxAll = self.find.element_by_id("select_all")
+        self.CheckboxAll.click()
         self.deleteAllBox = self.find.element_by_id("deleteAll")
         if self.deleteAllBox.is_displayed():
             return "deleteAll"
         else:
             return "error"
 
-    def click_delete_all(self):
+    def click_delete_all(self, value):
         self.deleteAllBox.click()
+        time.sleep(3)
+        self.find.alert_box(value)
+        time.sleep(3)
+        self.get_table()
+        table = self.TableArray
+        return len(table)
 
     def click_search_button(self):
         self.SearchButton = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/a")
         self.SearchButton.click()
+        time.sleep(2)
         self.GoButton = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[4]/a")
         return self.GoButton.text
@@ -126,9 +164,18 @@ class FlightView:
             "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[4]/a")
         self.GoButton.click()
         time.sleep(2)
-        resetButton = self.find.element_by_xpath(
+        self.ResetButton = self.find.element_by_xpath(
             "/html/body/main/section/div[2]/div/div/div[1]/div[3]/span/span/span[4]/a[2]")
-        return resetButton.text
+        return self.ResetButton.text
+
+    def click_on_reset(self):
+        self.ResetButton.click()
+        time.sleep(3)
+        self.AddButton = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a")
+        if self.AddButton.is_displayed():
+            return "mainpage"
+        else:
+            return self.AddButton.text
 
     def set_input_box(self, value):
         self.SearchInputBox = self.find.element_by_xpath(

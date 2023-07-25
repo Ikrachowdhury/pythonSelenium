@@ -32,6 +32,14 @@ class FlightAirlineView:
 
     def get_table(self):
         self.TableArray = self.find.array_of_table("class", "xcrud-row")
+        if len(self.TableArray) == 1:
+            text = self.TableArray[0].text
+            if text != "Entries not found.":
+                return "ok"
+            else:
+                return "no"
+        else:
+            return "ok"
 
     def click_Add_button(self):
         self.AddButton = self.find.element_by_xpath("/html/body/main/section/div[2]/div/div/div[1]/div[1]/a")
@@ -42,31 +50,42 @@ class FlightAirlineView:
         return page_indicator.text
 
     def click_satus(self, buttonNumber):
-        self.get_table()
-        self.Status = self.find.get_table_element(self.TableArray, buttonNumber, 'updated_status')
-        self.Status.click()
+        entry = self.get_table()
+        if entry == "ok":
+            self.Status = self.find.get_table_element(self.TableArray, buttonNumber, 'updated_status')
+            self.Status.click()
+            return "ok"
+        else:
+            return "no"
 
     def click_delete_button(self, buttonNumber, value):
-        self.get_table()
-        self.DeleteButton = self.find.get_table_element(self.TableArray, buttonNumber, 'xcrud-red')
-        self.DeleteButton.click()
-        time.sleep(3)
-        self.find.alert_box(value)
+        entry = self.get_table()
+        if entry == "ok":
+            self.DeleteButton = self.find.get_table_element(self.TableArray, buttonNumber, 'xcrud-red')
+            self.DeleteButton.click()
+            time.sleep(3)
+            self.find.alert_box(value)
+            return "ok"
+        else:
+            return "no"
 
     def click_checkbox(self, buttonNumber):
-        self.get_table()
-        self.Checkbox = self.find.get_table_element(self.TableArray, buttonNumber, 'checkboxcls')
-        self.Checkbox.click()
-        self.deleteAllBox = self.find.element_by_id("deleteAll")
-        if self.deleteAllBox.is_displayed():
-            return "deleteAll"
+        entry = self.get_table()
+        if entry == "ok":
+            self.Checkbox = self.find.get_table_element(self.TableArray, buttonNumber, 'checkboxcls')
+            self.Checkbox.click()
+            self.deleteAllBox = self.find.element_by_id("deleteAll")
+            if self.deleteAllBox.is_displayed():
+                return "deleteAll"
+            else:
+                return "error"
         else:
-            return "error"
+            return "no"
 
     def click_checkbox_all(self):
 
         self.CheckboxAll = self.find.element_by_id("select_all")
-        self.Checkbox.click()
+        self.CheckboxAll.click()
         self.deleteAllBox = self.find.element_by_id("deleteAll")
         if self.deleteAllBox.is_displayed():
             return "deleteAll"
@@ -75,7 +94,12 @@ class FlightAirlineView:
 
     def click_delete_all(self, value):
         self.deleteAllBox.click()
+        time.sleep(3)
         self.find.alert_box(value)
+        time.sleep(3)
+        self.get_table()
+        table = self.TableArray
+        return len(table)
 
     def click_search_button(self):
         self.find.scroll_bottom()
