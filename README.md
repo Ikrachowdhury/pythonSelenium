@@ -57,7 +57,7 @@ Flight Suggestion ,1 Flight
 
 
 ## Test Cases For Automation
-* [Test Cases Sheet -Google Drive](https://docs.google.com/spreadsheets/d/1hajuFhTIyi4jKHoYCHmUdvyngu5ql8nAZtCWSsjYv-g/edit?usp=sharing)
+* [Test Cases-Google Drive](https://docs.google.com/spreadsheets/d/1hajuFhTIyi4jKHoYCHmUdvyngu5ql8nAZtCWSsjYv-g/edit?usp=sharing)
 ## Requirements
 * python needs to be installed
 * Selenium needs to be installed 
