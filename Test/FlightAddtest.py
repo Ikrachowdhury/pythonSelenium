@@ -1,7 +1,7 @@
 import time
 import unittest
 from Base import SetUp
-from Pages import FlightsAll, DashBoard, FlightAirPort, FlightsAirline, FlightFeatured
+from Pages import FlightsAll, DashBoard, FlightAirPort, FlightsAirline, FlightFeatured, FlightSuggestion
 
 baseSetUp = SetUp.MyTestCase()
 
@@ -21,6 +21,7 @@ class FlightValueAdd(unittest.TestCase):
         self.flightAirPortView = FlightAirPort.FlightAirPortView(baseSetUp.driver)
         self.flightAirlineView = FlightsAirline.FlightAirlineView(baseSetUp.driver)
         self.flightFeaturedView = FlightFeatured.FlightFeaturedView(baseSetUp.driver)
+        self.FlightSuggestionView = FlightSuggestion.FlightSuggestionView(baseSetUp.driver)
 
     def test_ModuleStatus(self):
         self.dashboard.goto_Modules()
@@ -73,6 +74,12 @@ class FlightValueAdd(unittest.TestCase):
         self.flightAdd.set_child_price("500")
         self.flightAdd.set_infant_price("90")
 
+    def suggestion_values(self):
+        self.FlightSuggestionAdd.set_status("Enabled")
+        self.FlightSuggestionAdd.set_type("From_destination")
+        self.FlightSuggestionAdd.set_city_airport("CTG_1")
+        self.FlightSuggestionAdd.set_order("0")
+
     def flight_go(self):
         self.dashboard.goto_all_flights()
         time.sleep(5)
@@ -120,6 +127,14 @@ class FlightValueAdd(unittest.TestCase):
         self.flightAdd = FlightsAll.FlightAdd(baseSetUp.driver)
         self.flight_values()
         self.flightAdd.click_on_save()
+        time.sleep(3)
+
+        self.flight_go()
+        self.dashboard.goto_suggestion_flight()
+        self.FlightSuggestionView.click_Add_button()
+        self.FlightSuggestionAdd = FlightSuggestion.AddFlightSuggestion(baseSetUp.driver)
+        self.suggestion_values()
+        self.FlightSuggestionAdd.click_on_save()
         time.sleep(3)
 
     @classmethod

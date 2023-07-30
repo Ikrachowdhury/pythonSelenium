@@ -12,6 +12,10 @@ class FlightAirlineTesCases(unittest.TestCase):
     def setUpClass(cls) -> None:
         baseSetUp.setUp()
         baseSetUp.admin_login()
+        this_class = FlightAirlineTesCases()
+        cls.page_objects(this_class)
+        cls.test_ModuleStatus(this_class)
+        cls.test_FightAirlinePageAppear(this_class)
 
     def setUp(self):
         self.page_objects()
@@ -28,7 +32,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         time.sleep(2)
 
     def test_FightAirlinePageAppear(self):
-        self.test_ModuleStatus()
+        # self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_airline_flight()
         time.sleep(3)
@@ -37,7 +41,7 @@ class FlightAirlineTesCases(unittest.TestCase):
         baseSetUp.check_result_string(pageTittle, "Airlines")
 
     def test_AddNewAirlinePageAppear(self):
-        self.test_FightAirlinePageAppear()
+        # self.test_FightAirlinePageAppear()
         pageStart = self.flightAirlineView.click_Add_button()
         baseSetUp.check_result_string(pageStart, "Status")
 
@@ -45,12 +49,12 @@ class FlightAirlineTesCases(unittest.TestCase):
         pass
 
     def test_DeleteButton(self):
-        self.test_FightAirlinePageAppear()
+        # self.test_FightAirlinePageAppear()
         self.flightAirlineView.click_delete_button(0, "yes")
         time.sleep(3)
 
     def test_StatusChange(self):
-        self.test_FightAirlinePageAppear()
+        # self.test_FightAirlinePageAppear()
         status = self.flightAirlineView.click_satus(0)
         time.sleep(2)
         if status == "ok":
@@ -61,21 +65,22 @@ class FlightAirlineTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_ClickCheckbox(self):
-        self.test_FightAirlinePageAppear()
+        # self.test_FightAirlinePageAppear()
         actualResult = self.flightAirlineView.click_checkbox(0)
         if actualResult != "no":
             baseSetUp.check_result_string(actualResult, "deleteAll")
             time.sleep(3)
 
     def test_DeleteAll(self):
-        self.test_FightAirlinePageAppear()
+        # self.test_FightAirlinePageAppear()
+        self.test_ClickCheckbox()
         self.flightAirlineView.click_checkbox_all()
         actualResult = self.flightAirlineView.click_delete_all("yes")
         # baseSetUp.check_result_string(actualResult, 1)
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchAirlineAppear(self):
-        self.test_FightAirlinePageAppear()
+        # self.test_FightAirlinePageAppear()
         actualResult = self.flightAirlineView.click_search_button()
         baseSetUp.check_result_string(actualResult, "Go")
         time.sleep(3)

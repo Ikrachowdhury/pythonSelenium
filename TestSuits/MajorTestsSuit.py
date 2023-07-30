@@ -7,8 +7,8 @@ from Test.FlightSuggestionTest import suit as suggestion_suit
 
 import unittest
 #
-# major_suits = unittest.TestSuite(
-#     [add_flight_suit(), airport_suit(), airline_suit(),featured_suit(), flight_all_suit(), suggestion_suit()])
 major_suits = unittest.TestSuite(
-    [suggestion_suit()])
+    [add_flight_suit(), airport_suit(), airline_suit(),featured_suit(), flight_all_suit(), suggestion_suit()])
+# major_suits = unittest.TestSuite(
+#     [flight_all_suit()])
 unittest.TextTestRunner().run(major_suits)

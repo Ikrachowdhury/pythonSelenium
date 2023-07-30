@@ -11,6 +11,10 @@ class FlightSuggestionTesCases(unittest.TestCase):
     def setUpClass(cls) -> None:
         baseSetUp.setUp()
         baseSetUp.admin_login()
+        this_class = FlightSuggestionTesCases()
+        cls.page_objects(this_class)
+        cls.test_ModuleStatus(this_class)
+        cls.test_FlightSuggestionPageAppear(this_class)
 
     def setUp(self):
         self.page_objects()
@@ -27,7 +31,6 @@ class FlightSuggestionTesCases(unittest.TestCase):
         time.sleep(2)
 
     def test_FlightSuggestionPageAppear(self):
-        self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_suggestion_flight()
         pageTittle = baseSetUp.driver.title
@@ -35,7 +38,7 @@ class FlightSuggestionTesCases(unittest.TestCase):
         baseSetUp.check_result_string(pageTittle, "Flights Suggestions")
 
     def test_AddNewSuggestionAppear(self):
-        self.test_FlightSuggestionPageAppear()
+        # self.test_FlightSuggestionPageAppear()
         pageStart = self.FlightSuggestionView.click_Add_button()
         baseSetUp.check_result_string(pageStart, "Status")
 
@@ -43,12 +46,12 @@ class FlightSuggestionTesCases(unittest.TestCase):
         pass
 
     def test_DeleteButton(self):
-        self.test_FlightSuggestionPageAppear()
+        # self.test_FlightSuggestionPageAppear()
         self.FlightSuggestionView.click_delete_button(0, "yes")
         time.sleep(3)
 
     def test_StatusChange(self):
-        self.test_FlightSuggestionPageAppear()
+        # self.test_FlightSuggestionPageAppear()
         status = self.FlightSuggestionView.click_satus(0)
         time.sleep(2)
         if status == "ok":
@@ -59,7 +62,7 @@ class FlightSuggestionTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_ClickCheckbox(self):
-        self.test_FlightSuggestionPageAppear()
+        # self.test_FlightSuggestionPageAppear()
         actualResult = self.FlightSuggestionView.click_checkbox(0)
         if actualResult != "no":
             baseSetUp.check_result_string(actualResult, "deleteAll")
@@ -72,7 +75,7 @@ class FlightSuggestionTesCases(unittest.TestCase):
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchSuggestionAppear(self):
-        self.test_FlightSuggestionPageAppear()
+        # self.test_FlightSuggestionPageAppear()
         actualResult = self.FlightSuggestionView.click_search_button()
         baseSetUp.check_result_string(actualResult, "Go")
         time.sleep(3)

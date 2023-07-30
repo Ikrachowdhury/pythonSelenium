@@ -12,6 +12,10 @@ class FlightAirportTesCases(unittest.TestCase):
     def setUpClass(cls) -> None:
         baseSetUp.setUp()
         baseSetUp.admin_login()
+        this_class = FlightAirportTesCases()
+        cls.page_objects(this_class)
+        cls.test_ModuleStatus(this_class)
+        cls.test_FightAirportPageAppear(this_class)
 
     def setUp(self):
         self.page_objects()
@@ -28,7 +32,7 @@ class FlightAirportTesCases(unittest.TestCase):
         time.sleep(2)
 
     def test_FightAirportPageAppear(self):
-        self.test_ModuleStatus()
+        # self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_airport_flight()
         time.sleep(3)
@@ -37,7 +41,7 @@ class FlightAirportTesCases(unittest.TestCase):
         baseSetUp.check_result_string(pageTittle, "Airports")
 
     def test_AddNewAirportPageAppear(self):
-        self.test_FightAirportPageAppear()
+        # self.test_FightAirportPageAppear()
         pageStart = self.flightAirPortView.click_Add_button()
         baseSetUp.check_result_string(pageStart, "Status")
 
@@ -45,12 +49,12 @@ class FlightAirportTesCases(unittest.TestCase):
     #     pass
 
     def test_DeleteButton(self):
-        self.test_FightAirportPageAppear()
+        # self.test_FightAirportPageAppear()
         self.flightAirPortView.click_delete_button(0, "yes")
         time.sleep(3)
 
     def test_StatusChange(self):
-        self.test_FightAirportPageAppear()
+        # self.test_FightAirportPageAppear()
         status = self.flightAirPortView.click_satus(0)
         time.sleep(2)
         if status == "ok":
@@ -61,7 +65,7 @@ class FlightAirportTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_ClickCheckbox(self):
-        self.test_FightAirportPageAppear()
+        # self.test_FightAirportPageAppear()
         actualResult = self.flightAirPortView.click_checkbox(0)
         if actualResult != "no":
             baseSetUp.check_result_string(actualResult, "deleteAll")
@@ -74,7 +78,7 @@ class FlightAirportTesCases(unittest.TestCase):
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchAirportAppear(self):
-        self.test_FightAirportPageAppear()
+        # self.test_FightAirportPageAppear()
         actualResult = self.flightAirPortView.click_search_button()
         baseSetUp.check_result_string(actualResult, "Go")
         time.sleep(3)

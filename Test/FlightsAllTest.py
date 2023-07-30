@@ -12,6 +12,10 @@ class FlightsAllTesCases(unittest.TestCase):
     def setUpClass(cls) -> None:
         baseSetUp.setUp()
         baseSetUp.admin_login()
+        this_class = FlightsAllTesCases()
+        cls.page_objects(this_class)
+        cls.test_ModuleStatus(this_class)
+        cls.test_flightPageAppear_TC1(this_class)
 
     def setUp(self):
         self.page_objects()
@@ -29,7 +33,7 @@ class FlightsAllTesCases(unittest.TestCase):
         time.sleep(2)
 
     def test_flightPageAppear_TC1(self):
-        self.test_ModuleStatus()
+        # self.test_ModuleStatus()
         self.dashboard.goto_all_flights()
         self.dashboard.goto_flights()
         pageTittle = baseSetUp.driver.title
@@ -37,7 +41,7 @@ class FlightsAllTesCases(unittest.TestCase):
         baseSetUp.check_result_string(pageTittle, "Flights")
 
     def test_AddNewFlightOptionAppear_TC2(self):
-        self.test_flightPageAppear_TC1()
+        # self.test_flightPageAppear_TC1()
         self.flight.click_add_button()
         time.sleep(10)
         pageStart = self.flight.get_AddFlight_identifier()
@@ -45,7 +49,7 @@ class FlightsAllTesCases(unittest.TestCase):
         baseSetUp.check_result_string(pageStart, "Status")
 
     def test_EditButton_TC14(self):
-        self.test_flightPageAppear_TC1()
+        # self.test_flightPageAppear_TC1()
         self.flight.click_edit_button(0)
         time.sleep(6)
         pageStart = self.flight.get_EditFlight_identifier()
@@ -53,12 +57,12 @@ class FlightsAllTesCases(unittest.TestCase):
         baseSetUp.check_result_string(pageStart, "Status")
 
     def test_DeleteButton_TC10(self):
-        self.test_flightPageAppear_TC1()
+        # self.test_flightPageAppear_TC1()
         self.flight.click_delete_button(0, "yes")
         time.sleep(3)
 
     def test_StatusChange_TC8(self):
-        self.test_flightPageAppear_TC1()
+        # self.test_flightPageAppear_TC1()
         status = self.flight.click_satus(0)
         time.sleep(2)
         if status == "ok":
@@ -69,7 +73,7 @@ class FlightsAllTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_ClickCheckbox_TC9(self):
-        self.test_flightPageAppear_TC1()
+        # self.test_flightPageAppear_TC1()
         actualResult = self.flight.click_checkbox(0)
         if actualResult != "no":
             baseSetUp.check_result_string(actualResult, "deleteAll")
@@ -82,7 +86,7 @@ class FlightsAllTesCases(unittest.TestCase):
 
     # **************************************************Flight search section Test Cases*************************
     def test_ClickSearchFlightBoxAppear_TC16n17(self):
-        self.test_flightPageAppear_TC1()
+        # self.test_flightPageAppear_TC1()
         actualResult = self.flight.click_search_button()
         baseSetUp.check_result_string(actualResult, "Go")
         time.sleep(3)
@@ -123,7 +127,7 @@ class FlightsAllTesCases(unittest.TestCase):
         time.sleep(6)
 
     def test_Back_button(self):
-        self.test_flightPageAppear_TC1()
+        # self.test_flightPageAppear_TC1()
         actualResult = self.flight.click_back_button()
         baseSetUp.check_result_string(actualResult, "Dashboard")
         time.sleep(3)

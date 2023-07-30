@@ -70,6 +70,7 @@ class FlightSuggestionView:
             return "no"
 
     def click_checkbox(self, buttonNumber):
+        self.find.refresh()
         entry = self.get_table()
         if entry == "ok":
             self.Checkbox = self.find.get_table_element(self.TableArray, buttonNumber, 'checkboxcls')
