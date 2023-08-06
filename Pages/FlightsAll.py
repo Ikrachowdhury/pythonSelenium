@@ -289,6 +289,35 @@ class FlightAdd:
         sec.click()
         self.find.element_action(sec)
 
+    def time(self, month_year, date, nxt, string):
+        nexts = self.find.element_by_xpath(nxt)
+        shown_month_year = self.find.element_by_xpath(string).text
+        while shown_month_year != month_year:
+            nexts.click()
+            shown_month_year = self.find.element_by_xpath(string).text
+            if shown_month_year == month_year:
+                break
+
+        date_calender = self.find.array_of_table("class", "day")
+        for i in range(len(date_calender)):
+            shown_date = date_calender[i].text
+            # color = date_calender[i].value_of_css_property('color')
+            if shown_date == date:
+                date_calender[i].click()
+                break
+        time.sleep(5)
+        self.Duration.click()
+
+    def set_depart_date(self, month_year, date):
+        self.DepartureTime.click()
+        self.time(month_year, date, "//body/div[3]/div[1]/table[1]/thead[1]/tr[1]/th[3]//*[name()='svg']",
+                  "//body/div[3]/div[1]/table[1]/thead[1]/tr[1]/th[2]")
+
+    def set_arrive_date(self, month_year, date):
+        self.ArrivalTime.click()
+        self.time(month_year, date, "//body/div[4]/div[1]/table[1]/thead[1]/tr[1]/th[3]//*[name()='svg']",
+                  "//body/div[4]/div[1]/table[1]/thead[1]/tr[1]/th[2]")
+
     def set_departure_time(self):
         self.DepartureTime.click()
         self.time_box()

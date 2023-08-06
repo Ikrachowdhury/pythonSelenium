@@ -11,7 +11,7 @@ class DashBoard:
         self.find = Util.ElementsUtil(driver)
         self.Modules = self.find.element_by_xpath('/html/body/main/header/ul/li[3]/a')
         self.Flights = None
-        self.Booking = self.find.element_by_css('[data-bs-target="#bookings-collapse"]')
+        self.Booking = self.find.element_by_xpath("//a[normalize-space()='Bookings']")
 
     def goto_Modules(self):
         self.Modules.click()

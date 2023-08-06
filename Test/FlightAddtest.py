@@ -65,8 +65,8 @@ class FlightValueAdd(unittest.TestCase):
         self.flightAdd.set_duration("3H")
         self.flightAdd.set_type("Economy")
         self.flightAdd.set_refundable("Disable")
-        self.flightAdd.set_departure_time()
-        self.flightAdd.set_arrival_time()
+        # self.flightAdd.set_depart_date("August 2023", "16")
+        # self.flightAdd.set_arrive_date("September 2023", "16")
         self.flightAdd.set_baggage("5")
         self.flightAdd.set_cabin_baggage("3")
 
