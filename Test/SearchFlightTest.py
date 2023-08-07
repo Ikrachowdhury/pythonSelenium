@@ -8,10 +8,6 @@ baseSetUp = SetUp.MyTestCase()
 
 class FlightSearch(unittest.TestCase):
 
-    def __init__(self):
-        super().__init__()
-        self.search = SearchFlight.SearchFlight(baseSetUp.driver)
-
     def setUp(self):
         baseSetUp.setUp()
         baseSetUp.agent_login()

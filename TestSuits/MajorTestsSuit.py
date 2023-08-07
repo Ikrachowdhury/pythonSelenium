@@ -4,11 +4,14 @@ from Test.FlightAirportTest import suit as airport_suit
 from Test.FlightsAllTest import suit as flight_all_suit
 from Test.FlightFeaturedTest import suit as featured_suit
 from Test.FlightSuggestionTest import suit as suggestion_suit
+from Test.FlightBookTest import suit as flight_book_suit
 
 import unittest
 
-major_suits = unittest.TestSuite(
-    [airport_suit(), airline_suit(),featured_suit(), suggestion_suit(),flight_all_suit(),add_flight_suit()])
+flight_suits = unittest.TestSuite(
+    [airport_suit(), airline_suit(), featured_suit(), suggestion_suit(), flight_all_suit(), add_flight_suit()])
 # major_suits = unittest.TestSuite(
 #     [flight_all_suit()])
-unittest.TextTestRunner().run(major_suits)
+booking_suits = unittest.TestSuite([flight_book_suit()])
+# unittest.TextTestRunner().run(flight_suits)
+unittest.TextTestRunner().run(booking_suits)
